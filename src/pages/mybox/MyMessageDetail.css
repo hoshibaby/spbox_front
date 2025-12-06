@@ -1,0 +1,296 @@
+/* ================================
+   상세 페이지 공통 컨테이너
+================================ */
+
+/* 페이지 전체 여백 */
+.mybox-detail {
+  margin-top: 20px;
+}
+
+/* ================================
+   상단 헤더: 제목 + 뒤로가기
+================================ */
+
+.mybox-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 12px 2px 18px;
+}
+
+/* 제목: "받은 메시지 상세" */
+.mybox-detail-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ← 목록으로 버튼 (텍스트 링크 느낌) */
+.mybox-back-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+}
+
+.mybox-back-button:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   카드 공통 스타일
+================================ */
+
+.mybox-detail-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 22px; /* 상단 패딩 20px : 메시지/답장 카드 공통 */
+  box-shadow: 0 8px 20px rgba(15, 10, 50, 0.08);
+  margin-bottom: 18px;
+}
+
+/* ================================
+   메시지 카드 (상자)
+================================ */
+
+/* 상단 메타: 상자 + 숨김 배지 + 우측 시간 */
+.mybox-detail-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mybox-detail-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mybox-detail-sender {
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+/* 숨김 배지 */
+.badge-hidden {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #555;
+}
+
+/* 상단/하단 시간 텍스트 */
+.mybox-detail-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.mybox-detail-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #999;
+}
+
+.mybox-detail-time-bottom {
+  text-align: right;
+}
+
+/* 메시지 본문 */
+.mybox-detail-content {
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+
+/* 배지들 (상자, 기타 상태 표시) */
+.mybox-detail-badges .badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+
+.badge-main {
+  background: #6c46ff;
+  color: #fff;
+}
+
+.badge-muted {
+  background: #e4e6ef;
+  color: #555;
+}
+
+/* ================================
+   답장 카드
+================================ */
+
+/* 답장 카드 자체: 위 카드와 살짝 간격 */
+.reply-card {
+  margin-top: 8px;
+}
+
+/* 답장 헤더: "답장" + ... 버튼 */
+.mybox-detail-reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mybox-detail-reply-header h4 {
+  margin: 0;
+  font-size: 15px;    /* "상자"와 동일 크기 */
+  font-weight: 600;
+  color: #333;
+}
+
+.reply-header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* 오른쪽 ... 토글 버튼 */
+.reply-menu-toggle {
+  border: none;
+  background: none;
+  padding: 2px 6px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: #777;
+}
+
+.reply-menu-toggle:hover {
+  color: #333;
+}
+
+/* 답장 내용 박스 */
+.mybox-detail-reply-preview {
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  background: #f7f7fb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+/* 답장 수정/삭제 액션 (토글 펼쳐졌을 때) */
+.reply-actions-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.reply-link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  color: #6c46ff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reply-link-btn.danger {
+  color: #ff5f6b;
+}
+
+.reply-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   답장 작성 폼
+================================ */
+
+.mybox-detail-reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 8px 4px;
+}
+
+.mybox-detail-textarea {
+  width: 100%;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.mybox-detail-textarea:focus {
+  outline: none;
+  border-color: #6c46ff;
+  box-shadow: 0 0 0 2px rgba(108, 70, 255, 0.15);
+}
+
+/* 답장 폼 하단 버튼 영역 */
+.mybox-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 메인 버튼 (예: 답장 보내기) */
+.btn-main {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6c46ff, #9a5bff);
+  color: #fff;
+}
+
+.btn-main:hover {
+  opacity: 0.9;
+}
+
+/* ================================
+   하단 버튼 (삭제, 숨김 등)
+================================ */
+
+.mybox-detail-bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 2px 40px;
+  gap: 10px;
+}
+
+.btn-ghost,
+.btn-danger-ghost {
+  flex: 1;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.btn-ghost:hover {
+  background: #f7f7fb;
+}
+
+.btn-danger-ghost {
+  border-color: #ff5f6b;
+  color: #ff5f6b;
+}
+
+.btn-danger-ghost:hover {
+  background: #fff4f5;
+}

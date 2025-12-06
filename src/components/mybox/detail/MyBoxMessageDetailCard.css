@@ -1,0 +1,24 @@
+/* src/components/mybox/MyBoxMessageDetailCard.css */
+
+.mybox-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mybox-detail-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 999px;
+  background: #f3f4ff; /* 보라색 톤과 어울리는 연한 배경 */
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.mybox-detail-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+

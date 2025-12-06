@@ -1,0 +1,69 @@
+/* 상단 전체 바 */
+.nav-root {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #f3f4f6; /* 전체 배경이랑 자연스럽게 */
+}
+
+/* 가운데 정렬 + 최대 폭 */
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 왼쪽 로고 */
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: #111827;
+}
+
+/* 가운데 메뉴 */
+.nav-center {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-link {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.nav-link:hover {
+  color: #4c1d95;
+}
+
+/* 오른쪽 영역 */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-nickname {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* 로그인 / 로그아웃 버튼 */
+.nav-login-btn,
+.nav-logout-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  background-color: #ffffff;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.nav-login-btn:hover,
+.nav-logout-btn:hover {
+  border-color: #4c1d95;
+  color: #4c1d95;
+}

@@ -1,0 +1,41 @@
+/* 왼쪽 사이드바 */
+.mybox-sidebar {
+  width: 180px;
+  padding: 16px 8px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 사이드바 버튼 */
+.mybox-menu-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  text-align: center;
+  background: #111827;
+  color: #f9fafb;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mybox-menu-active {
+  background: linear-gradient(135deg, #111827, #4c1d95); /* 네이비→보라 */
+}
+
+/* 모바일에서는 상단 탭처럼 가로로 */
+@media (max-width: 768px) {
+  .mybox-sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 8px;
+  }
+
+  .mybox-menu-btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+}

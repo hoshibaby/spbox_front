@@ -1,0 +1,50 @@
+/* -------- 레이아웃 전체 (공통) -------- */
+.mybox-layout {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px);
+  max-width: 1200px;
+  margin: 24px auto 40px auto;
+}
+
+/* 오른쪽 메인 영역 (왼쪽 사이드바 옆) */
+.mybox-main {
+  flex: 1;
+  min-width: 0;
+  background-color: transparent;
+  padding: 0 24px;
+}
+
+/* 중앙 컬럼 – 오너 카드 + 메시지 카드가 공유하는 폭 */
+.mybox-main-inner {
+  width: 100%;
+  max-width: 880px;      /* 디자인 기준 폭 */
+  margin: 0 auto;        /* 가운데 정렬 */
+}
+
+/* 간격 */
+.mybox-message-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;              /* 카드 사이 여백 */
+  align-items: stretch;   /* 카드 높이를 줄마다 맞춰줌 */
+}
+
+/* -------- 반응형 (모바일) -------- */
+@media (max-width: 768px) {
+  .mybox-layout {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .mybox-main {
+    padding: 16px;
+  }
+
+  .mybox-main-inner {
+    max-width: 100%;
+  }
+
+
+}

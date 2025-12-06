@@ -1,0 +1,134 @@
+/* 상단 오너 카드 전체 박스 */
+.mybox-owner-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto 24px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* 위쪽 얇은 커버 영역 (보라 배경) */
+.mybox-owner-cover {
+  height: 60px;
+  background: linear-gradient(135deg, #111827, #4c1d95);
+}
+
+/* 아래 내용 영역 */
+.mybox-owner-content {
+  display: flex;
+  padding: 18px 22px;
+}
+
+/* 왼쪽 큰 프로필 동그라미 – 이미지가 들어가는 프레임 */
+.mybox-owner-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;        /* 안쪽 이미지를 동그랗게 잘라주기 */
+  background: #f3f4ff;     /* 프로필 이미지 없을 때 보이는 연보라 배경 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+/* 아바타 안에 들어가는 이미지 (기본 상자 / 나중 프로필) */
+.mybox-owner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* 어떤 비율 사진이 와도 꽉 채우기 */
+  display: block;
+}
+
+/* 가운데 텍스트 영역 */
+.mybox-owner-info {
+  flex: 1;
+}
+
+.mybox-owner-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.mybox-owner-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.mybox-owner-id {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.mybox-owner-subtitle {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* 간단한 통계 줄 */
+.mybox-owner-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.mybox-owner-stats .stat-label {
+  display: block;
+}
+
+.mybox-owner-stats .stat-value {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+/* 오른쪽 버튼 영역 */
+.mybox-owner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.owner-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.owner-btn.primary {
+  background: #4c1d95;
+  color: #f9fafb;
+
+
+
+  
+}
+
+.owner-btn.secondary {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+/* 모바일에서 살짝 컴팩트하게 */
+@media (max-width: 768px) {
+  .mybox-owner-content {
+    padding: 14px 16px;
+  }
+
+  /* 필요하면 모바일에서 아바타 살짝 줄이고 싶을 때 사용 */
+  /* 
+  .mybox-owner-avatar {
+    width: 56px;
+    height: 56px;
+  }
+  */
+}

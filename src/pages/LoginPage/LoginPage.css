@@ -1,0 +1,123 @@
+/* 화면 가운데 카드 위치시키기 */
+.login-page {
+  min-height: calc(100vh - 80px); /* 위에 네비게이션 높이 감안 */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f3f4f6; /* 아주 연한 회색 */
+}
+
+/* 카드 박스 */
+.login-card {
+  width: 360px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  padding: 24px 28px 24px;
+}
+
+/* 상단 로고 / 타이틀 */
+.login-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-logo-mark {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #a855f7, #1f2937);
+}
+
+.login-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827; /* 진한 네이비톤 */
+}
+
+.login-subtitle {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 폼 영역 */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.login-field label {
+  color: #4b5563;
+}
+
+.login-field input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+}
+
+.login-field input:focus {
+  border-color: #6366f1;           /* 보라 */
+  box-shadow: 0 0 0 1px #6366f1;
+}
+
+/* 로그인 버튼 */
+.login-button {
+  margin-top: 6px;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #111827, #4c1d95); /* 네이비→보라 */
+  color: #f9fafb;
+}
+
+.login-button:hover {
+  opacity: 0.95;
+}
+
+/* 에러 메시지 */
+.login-error {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+/* 하단 링크들 */
+.login-footer-links {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.login-footer-links button {
+  border: none;
+  background: none;
+  padding: 0 4px;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.login-footer-links button:hover {
+  text-decoration: underline;
+}
