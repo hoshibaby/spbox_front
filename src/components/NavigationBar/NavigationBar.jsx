@@ -1,7 +1,8 @@
 // src/components/NavigationBar.jsx
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./NavigationBar.css";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import './NavigationBar.css';
+import logoImg from '../../assets/secretbox-log.png';
 
 function NavigationBar() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function NavigationBar() {
   // 새로고침해도 localStorage 값 읽어오기
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const stored = localStorage.getItem("auth");
+    const stored = localStorage.getItem('auth');
     if (stored) {
       try {
         setAuth(JSON.parse(stored));
@@ -25,12 +26,12 @@ function NavigationBar() {
   }, [location]);
 
   const isLoggedIn = !!auth;
-  const nickname = auth?.nickname || "";
+  const nickname = auth?.nickname || '';
 
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    localStorage.removeItem('auth');
     setAuth(null);
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -38,8 +39,8 @@ function NavigationBar() {
       <div className="nav-inner">
         {/* 왼쪽 로고 / 홈 */}
         <div className="nav-left">
-          <Link to="/" className="nav-logo">
-            SecretBox
+          <Link to="/me/messages" className="nav-logo">
+            <img src={logoImg} alt="SecretBox Logo" className="nav-logo-img" />
           </Link>
         </div>
 

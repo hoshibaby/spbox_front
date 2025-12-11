@@ -41,6 +41,7 @@
   margin-bottom: 12px;
 }
 
+
 .mybox-detail-footer {
   display: flex;
   justify-content: flex-end;
@@ -55,10 +56,19 @@
 }
 
 .mybox-detail-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 999px;
-  background: #f3f4ff; /* 보라색 톤과 어울리는 연한 배경 */
-  margin-right: 8px;
-  display: inline-block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f3f4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.mybox-detail-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

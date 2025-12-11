@@ -1,0 +1,88 @@
+/* 전체 카드 모양: 답장/메시지 상세 카드와 통일 */
+.mybox-write-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 22px 24px;
+  box-shadow: 0 8px 20px rgba(15, 10, 50, 0.08);
+  margin-top: 18px;
+}
+
+/* 제목 "메시지 발송" */
+.mybox-write-card .mybox-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* 설명 텍스트 */
+.mybox-write-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+/* 텍스트 영역 */
+.mybox-write-textarea {
+  width: 100%;
+  min-height: 180px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 12px 14px;
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.mybox-write-textarea:focus {
+  outline: none;
+  border-color: #6c46ff;
+  box-shadow: 0 0 0 2px rgba(108, 70, 255, 0.15);
+}
+
+/* 글자수 카운트 */
+.mybox-write-count-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.mybox-write-count {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 버튼 영역 / 버튼 스타일 */
+.mybox-write-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.mybox-write-btn.primary {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6c46ff, #9a5bff);
+  color: #fff;
+}
+
+.mybox-write-btn.secondary {
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.mybox-write-btn.secondary:hover {
+  background: #f7f7fb;
+}
+
+.mybox-write-btn.primary:hover {
+  opacity: 0.9;
+}

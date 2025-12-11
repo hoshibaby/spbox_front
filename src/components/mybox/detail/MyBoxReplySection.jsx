@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import './MyBoxReplySection.css';
 
+const OWNER_DEFAULT_AVATAR = "/default-box-avatar.jpg";
+
 function MyBoxReplySection({
   detail,
   replyContent,
@@ -15,20 +17,28 @@ function MyBoxReplySection({
   const [showActions, setShowActions] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const hasReply =
-    detail.replyContent &&
-    detail.replyContent.trim().length > 0;
+    const hasReply =
+    detail.replyContent && detail.replyContent.trim().length > 0;
 
-
+  // 계정주(열시) 정보
+  const auth = JSON.parse(localStorage.getItem("auth") || "null");
+  const ownerNickname = auth?.nickname || "계정주";
+  const ownerAvatarUrl = auth?.profileImageUrl || OWNER_DEFAULT_AVATAR;
 
   return (
     <section className="mybox-detail-card reply-card">
-      {/* 상단 영역 */}
-      <div className="mybox-detail-reply-header">
-          <div className="reply-avatar">
-          <div className="owner-avatar-small">열</div>
-      </div>
-        <h4>답장</h4>
+      {/* 상단 영역: 아바타 + 이름 + "답장" + 토글 */}
+      <div className='mybox-reply-title'>답장</div>
+
+      {/* 닉네임/아바타/토글 */}
+      <div className="mybox-detail-meta mybox-detail-reply-top">
+        <div className="mybox-detail-meta-left">
+          <div className="mybox-detail-avatar mybox-reply-avatar">
+            <img src={ownerAvatarUrl} alt={`${ownerNickname} 아바타`} />
+          </div>
+          <span className="mybox-detail-sender">{ownerNickname}</span>
+          
+        </div>
 
         {hasReply && (
           <button

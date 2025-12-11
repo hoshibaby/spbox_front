@@ -7,12 +7,20 @@
   overflow: hidden;
   background-color: #ffffff;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+
 }
 
 /* 위쪽 얇은 커버 영역 (보라 배경) */
+/* 사진 넣자!! 
+   권장 사이즈: 가로 1200~1600px / 세로 300~400px, 비율 4~5:1 정도 */
 .mybox-owner-cover {
-  height: 60px;
+  height: 300px;
   background: linear-gradient(135deg, #111827, #4c1d95);
+  /* 나중에 이미지 쓸 때:
+  background-image: url('...');
+  background-size: cover;
+  background-position: center;
+  */
 }
 
 /* 아래 내용 영역 */
@@ -21,10 +29,13 @@
   padding: 18px 22px;
 }
 
-/* 왼쪽 큰 프로필 동그라미 – 이미지가 들어가는 프레임 */
+/* 왼쪽 큰 프로필 동그라미 – 이미지가 들어가는 프레임
+   권장 업로드: 400x400px 이상, 정사각형 이미지 
+   프로필 아바타: 실제 표시 크기 120x120px*/
+
 .mybox-owner-avatar {
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   overflow: hidden;        /* 안쪽 이미지를 동그랗게 잘라주기 */
   background: #f3f4ff;     /* 프로필 이미지 없을 때 보이는 연보라 배경 */
@@ -55,19 +66,19 @@
 
 .mybox-owner-name {
   margin: 0;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
   color: #111827;
 }
 
 .mybox-owner-id {
-  font-size: 12px;
+  font-size: 17px;
   color: #9ca3af;
 }
 
 .mybox-owner-subtitle {
   margin: 4px 0 8px;
-  font-size: 13px;
+  font-size: 18px;
   color: #6b7280;
 }
 
@@ -75,7 +86,7 @@
 .mybox-owner-stats {
   display: flex;
   gap: 16px;
-  font-size: 12px;
+  font-size: 15px;
   color: #6b7280;
 }
 
@@ -94,6 +105,7 @@
   flex-direction: column;
   gap: 8px;
   margin-left: 16px;
+
 }
 
 .owner-btn {
@@ -102,21 +114,29 @@
   padding: 6px 12px;
   font-size: 12px;
   cursor: pointer;
+  height: 36px;
 }
 
 .owner-btn.primary {
-  background: #4c1d95;
+  background: linear-gradient(135deg, #6b43ff, #5126d6);
   color: #f9fafb;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  font-size: 0.8rem;
+}
 
-
-
-  
+.owner-btn.primary:hover {
+  background: linear-gradient(135deg, #7a53ff, #5b2ee4);
 }
 
 .owner-btn.secondary {
   background: #f3f4f6;
   color: #4b5563;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  font-size: 0.8rem;
 }
+
 
 /* 모바일에서 살짝 컴팩트하게 */
 @media (max-width: 768px) {

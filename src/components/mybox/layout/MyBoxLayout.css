@@ -39,11 +39,14 @@
   }
 
   .mybox-main {
-    padding: 16px;
+    display: flex;
+    justify-content: center; 
   }
 
   .mybox-main-inner {
     max-width: 100%;
+    max-width: 860px; /* 콘텐츠 폭을 고정해서 깔끔하게 */
+    margin: 0 auto;
   }
 
 

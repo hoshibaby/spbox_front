@@ -17,9 +17,24 @@ const getPublicMessages = (urlKey, page = 0, size = 10) => {
   });
 };
 
+// userId 버전
+const getBoxHeaderByUserId = (userId) => {
+  return client.get(`/boxes/user/${userId}/header`);
+};
+
+const getPublicMessagesByUserId = (userId, page = 0, size = 10) => {
+  return client.get(`/boxes/user/${userId}/messages`, {
+    params: { page, size },
+  });
+};
+
 const boxService = {
   getBoxHeader,
   getPublicMessages,
+  getBoxHeaderByUserId,
+  getPublicMessagesByUserId
 };
+
+
 
 export default boxService;

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../service/auth.service';
+import logo from '../../assets/secretbox-log.png';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -18,11 +19,22 @@ function LoginPage() {
       const res = await authService.login(userId, password);
       const data = res.data; // token, userId, email, nickname...
 
-      // 브라우저에 로그인 정보 저장
-      localStorage.setItem('auth', JSON.stringify(data));
+      const auth = {
+        id: data.id,                 // DB PK
+        userId: data.userId,         // 로그인 아이디
+        email: data.email,
+        nickname: data.nickname,
+        role: data.role,
+        addressId: data.addressId,
+        token: data.token,           // JWT
+        boxUrlKey: data.boxUrlKey,
+      };
+
+      localStorage.setItem('auth', JSON.stringify(auth));
+      console.log('login success auth >>>', auth);
 
       alert(`${data.nickname}님, 로그인 되었습니다 :)`);
-      navigate('/me/messages'); // 일단 메인으로 돌려보내기
+      navigate('/me/messages'); // 로그인 후 이동
     } catch (err) {
       console.error(err);
       setError('아이디 또는 비밀번호를 확인해 주세요.');
@@ -32,11 +44,12 @@ function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        {/* 서비스 로고 / 제목 */}
+        {/* 상단 로고 영역 */}
         <div className="login-header">
-          <div className="login-logo-mark" />
-          <h1 className="login-title">SecretBox</h1>
-          <p className="login-subtitle">익명으로 도착한 비밀 메시지를 한 곳에서 확인해요.</p>
+          <img src={logo} alt="SecretBox Logo" className="login-logo-img" />
+          <p className="login-subtitle">
+            익명으로 도착한 비밀 메시지를 한 곳에서 확인해요.
+          </p>
         </div>
 
         {/* 로그인 폼 */}
@@ -68,13 +81,19 @@ function LoginPage() {
           {error && <p className="login-error">{error}</p>}
         </form>
 
-        {/* 아래 작은 링크들 (일단 모양만) */}
+        {/* 하단 링크들 - 여기서 라우팅 연결 ✅ */}
         <div className="login-footer-links">
-          <button type="button">아이디 찾기</button>
+          <button type="button" onClick={() => navigate('/find-id')}>
+            아이디 찾기
+          </button>
           <span>|</span>
-          <button type="button">비밀번호 찾기</button>
+          <button type="button" onClick={() => navigate('/find-password')}>
+            비밀번호 찾기
+          </button>
           <span>|</span>
-          <button type="button">회원가입</button>
+          <button type="button" onClick={() => navigate('/signup')}>
+            회원가입
+          </button>
         </div>
       </div>
     </div>

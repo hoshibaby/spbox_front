@@ -1,0 +1,36 @@
+/* 가로 탭 전체 영역 */
+.mybox-tabs {
+  display: flex;
+  justify-content: center;   /* 🔥 가운데 정렬 */
+  align-items: center;
+  gap: 32px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 8px;
+}
+
+/* 기본 탭 스타일 */
+.mybox-tab {
+  padding: 6px 2px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #9a9a9a;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: 0.2s;
+}
+
+/* 호버 효과 */
+.mybox-tab:hover {
+  color: #666;
+}
+
+/* 활성 탭 */
+.mybox-tab-active {
+  color: #5a3eff;            
+  font-weight: 600;
+  border-bottom-color: #5a3eff;
+}
+
+

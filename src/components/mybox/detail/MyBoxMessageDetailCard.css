@@ -7,8 +7,8 @@
 }
 
 .mybox-detail-avatar {
-  width: 45px;
-  height: 45px;
+  width: 70px;
+  height: 70px;
   border-radius: 999px;
   background: #f3f4ff; /* 보라색 톤과 어울리는 연한 배경 */
   margin-right: 8px;
@@ -21,4 +21,24 @@
   gap: 6px;
 }
 
+.mybox-detail-meta .mybox-detail-sender {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.mybox-detail-time-bottom {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* ===== 본문 내용 ===== */
+.mybox-detail-content {
+  font-size: 1.5rem;     /* 읽기 편한 크기 */
+  line-height: 1.6;       /* 줄 간격 넉넉하게 */
+  color: #333;            /* 메인 텍스트 컬러 */
+  margin-top: 6px;        /* 작성자와 살짝 간격 */
+  white-space: pre-wrap;  /* 줄바꿈/공백 유지 */
+  word-break: break-word; /* 긴 글도 안전하게 줄바꿈 */
+}
 

@@ -1,0 +1,342 @@
+/* =============================
+   전체 페이지 배경
+   ============================= */
+
+.settings-page {
+  background: linear-gradient(135deg, #f4f5fb, #eceff6);
+  min-height: 100vh;
+}
+
+.settings-page-inner {
+  max-width: 1080px;
+  margin: 0 auto 40px;
+  padding: 24px 16px 40px;
+}
+
+/* =============================
+   카드들을 담는 영역
+   (JSX 그대로: 카드 3개가 세로로 들어있다고 가정)
+   ============================= */
+
+.settings-main {
+  max-width: 1080px;
+  margin: 24px auto 40px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 데스크탑 이상일 때만 1행2열 그리드로 재배치
+   1행: 프로필 카드(1번) 전체
+   2행: AI(2번) / 계정삭제(3번) 나란히 */
+@media (min-width: 900px) {
+  .settings-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    grid-column-gap: 16px;
+    grid-row-gap: 18px;
+    grid-template-areas:
+      "profile profile"
+      "ai danger";
+  }
+
+  .settings-main .settings-card:nth-child(1) {
+    grid-area: profile;
+  }
+
+  .settings-main .settings-card:nth-child(2) {
+    grid-area: ai;
+  }
+
+  .settings-main .settings-card:nth-child(3) {
+    grid-area: danger;
+  }
+}
+
+/* =============================
+   기본 카드 (유리/볼록 느낌)
+   ============================= */
+
+.settings-card {
+  background: rgba(255, 255, 255, 0.9);
+  color: #222;
+  border-radius: 18px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    6px 10px 22px rgba(15, 23, 42, 0.12),
+    -4px -4px 12px rgba(255, 255, 255, 0.95);
+}
+
+/* 첫 번째(프로필) 카드는 조금 더 여유 있게 */
+.settings-main .settings-card:nth-child(1) {
+  padding: 22px 24px;
+}
+
+/* 두 번째/세 번째 카드(서브 카드)는 살짝 가볍게 */
+.settings-main .settings-card:nth-child(2),
+.settings-main .settings-card:nth-child(3) {
+  padding: 18px 20px;
+}
+
+/* 카드 안 텍스트 줄 길이 제한해서 덩어리감 줄이기 */
+.settings-card p,
+.settings-card .settings-help {
+  max-width: 620px;
+}
+
+.settings-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+/* 프로필 설정 안에서 필드 간 간격 */
+.settings-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =============================
+   인풋 스타일
+   ============================= */
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.settings-input {
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid #d4d4dd;
+  background: rgba(248, 249, 252, 0.95);
+  color: #111827;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.settings-input::placeholder {
+  color: #9ca3af;
+}
+
+.settings-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+}
+
+.settings-inline-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* =============================
+   버튼 계열
+   ============================= */
+
+/* 기본(저장/확인) 버튼 */
+.settings-button {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #8b5cf6;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.35);
+  transition: 0.2s ease;
+}
+
+.settings-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(139, 92, 246, 0.45);
+}
+
+/* 취소 버튼 (맑은 분홍) */
+.settings-button-cancel {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 113, 150, 0.6);
+  background: #ffeaf2;
+  color: #be123c;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.settings-button-cancel:hover {
+  background: #ffd6e5;
+}
+
+/* 위험 버튼 (계정 삭제) */
+.settings-button-danger {
+  margin-top: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #ff5c7a;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(248, 113, 150, 0.45);
+}
+
+.settings-button-danger:hover {
+  background: #ff3b63;
+}
+
+/* =============================
+   파일 업로드 / 이미지 미리보기
+   ============================= */
+
+.file-upload-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-upload-button {
+  background: #8b5cf6;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+}
+
+.file-upload-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(139, 92, 246, 0.4);
+}
+
+.file-upload-name {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.settings-image-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.settings-image-preview,
+.settings-header-preview {
+  background: #f3f4f6;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  min-width: 80px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-image-preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.settings-header-preview img {
+  width: 220px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.settings-image-placeholder {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* =============================
+   AI 토글 스위치
+   ============================= */
+
+.settings-ai-toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 설명 텍스트 줄 길이 살짝 제한 */
+.settings-ai-toggle .settings-help {
+  max-width: 420px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #e5e7eb;
+  border-radius: 999px;
+  transition: 0.2s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.switch input:checked + .slider {
+  background-color: #8b5cf6;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+/* =============================
+   위험(계정 삭제) 카드
+   ============================= */
+
+.settings-danger-card {
+  background: linear-gradient(135deg, #fff3f5, #ffe7eb);
+  border: 1px solid #ffb3c1;
+  color: #b91c1c;
+}
+
+/* 계정 삭제 설명 줄 길이 줄여서 더 정돈되게 */
+.settings-danger-card p {
+  max-width: 420px;
+}

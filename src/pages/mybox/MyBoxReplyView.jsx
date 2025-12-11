@@ -1,15 +1,16 @@
-// src/pages/mybox/MyBoxReplyViewPage.jsx
+// src/pages/mybox/MyBoxReplyView.jsx
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import messageService from "../../service/message.service";
+import MyBoxMidTabs from "../../components/mybox/common/MyBoxMidTabs";
 
 import MyBoxSideMenu from "../../components/mybox/common/MyBoxSideMenu";
 import MyBoxOwnerHeader from "../../components/mybox/common/MyBoxOwnerHeader";
 
 import "../../components/mybox/layout/MyBoxLayout.css";
-import "../../components/mybox/detail/MyBoxReplyViewPage.css"; // 나중에 만들거야
+import "../../components/mybox/detail/MyBoxReplyView.css"; // 나중에 만들거야
 
-function MyBoxReplyViewPage() {
+function MyBoxReplyView() {
   const { messageId } = useParams();
   const navigate = useNavigate();
 
@@ -47,23 +48,14 @@ function MyBoxReplyViewPage() {
       {/* 왼쪽 사이드 메뉴 */}
       <MyBoxSideMenu />
 
+
       {/* 오른쪽 메인 영역 */}
       <div className="mybox-main">
         {/* 상단 프로필 카드 */}
         <MyBoxOwnerHeader owner={owner} />
 
-        {/* 탭 네비게이션 – 디자인은 기존과 동일, 구조만 */}
-        <div className="mybox-tabs">
-          <NavLink to="/me/messages" className="mybox-tab">
-            메시지
-          </NavLink>
-          <NavLink to="/me/replies" className="mybox-tab mybox-tab-active">
-            답장
-          </NavLink>
-          <NavLink to="/me/counseling" className="mybox-tab">
-            상담모드
-          </NavLink>
-        </div>
+        {/* 🔽 이 한 줄로 탭 전체 교체 */}
+        <MyBoxMidTabs />
 
         {/* 여기부터가 열시가 그린 06 PAGE 답장 view 부분 */}
         <div className="mybox-reply-view">
@@ -135,4 +127,4 @@ function MyBoxReplyViewPage() {
   );
 }
 
-export default MyBoxReplyViewPage;
+export default MyBoxReplyView;

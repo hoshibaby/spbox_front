@@ -1,0 +1,221 @@
+/* ========== 전체 레이아웃 ========== */
+
+.notification-page {
+  max-width: 760px;
+  margin: 80px auto 56px;
+  padding: 0 24px 40px;
+  font-family: 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #111111;
+}
+
+.notification-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.notification-page-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* ========== 상단 버튼 ========== */
+
+.notification-mark-all-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #dde1f1;
+  background: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #444c6b;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease, border-color 0.15s ease;
+}
+
+.notification-mark-all-btn:hover {
+  background: #f4f6ff;
+  border-color: #c6cffc;
+  box-shadow: 0 6px 16px rgba(38, 57, 115, 0.15);
+  transform: translateY(-1px);
+}
+
+.notification-mark-all-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ========== 탭 (전체 / 새 메시지 / 답글 / 처리 알림) ========== */
+
+.notification-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.notification-filter-tab {
+  min-width: 72px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #f2f3fb;
+  color: #50556d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.notification-filter-tab:hover {
+  background: #e2e6ff;
+  color: #27308a;
+}
+
+.notification-filter-tab.active {
+  background: #27308a;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(25, 39, 122, 0.25);
+}
+
+/* ========== 리스트 & 아이템 ========== */
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* 공통 카드 스타일 */
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e3e6f3;
+
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow 0.15s ease, transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.notification-item:hover {
+  box-shadow: 0 10px 24px rgba(32, 38, 72, 0.18);
+  transform: translateY(-1px);
+  border-color: #c3ccff;
+}
+
+/* 읽지 않은 알림 강조 */
+.notification-item-unread {
+  background: #f5f6ff;
+  border-color: #c3ccff;
+  font-weight: 500;
+}
+
+/* 왼쪽 텍스트 영역 */
+.notification-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-item-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #171a2b;
+}
+
+.notification-item-content {
+  font-size: 0.9rem;
+  color: #5b6178;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 두 줄까지 표시 후 ... */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 오른쪽 메타 영역 (점 + 날짜) */
+.notification-item-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.notification-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #d0d4e8;
+}
+
+/* 읽지 않은 알림은 파란 점 */
+.notification-item-unread .notification-item-dot {
+  background: #4773ff;
+}
+
+.notification-item-date {
+  font-size: 0.78rem;
+  color: #7a7f97;
+}
+
+/* ========== 상태 메시지 ========== */
+
+.notification-empty-text,
+.notification-info-text,
+.notification-error-text {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.notification-empty-text {
+  background: #f7f8fd;
+  color: #767c96;
+}
+
+.notification-info-text {
+  background: #eef5ff;
+  color: #4760b0;
+}
+
+.notification-error-text {
+  background: #fff2f2;
+  color: #c0392b;
+}
+
+/* ========== 반응형 (모바일) ========== */
+
+@media (max-width: 640px) {
+  .notification-page {
+    padding: 0 16px 32px;
+    margin-top: 72px;
+  }
+
+  .notification-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .notification-item {
+    padding: 12px 14px;
+  }
+
+  .notification-item-meta {
+    align-items: flex-start;
+  }
+}

@@ -1,10 +1,10 @@
 /* 페이지 제목 & 페이지 정보 */
 .mybox-title {
   margin-top: 8px;
-  margin-bottom: 16px;
-  font-size: 20px;
+  margin-bottom: 12px;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #111827;
+
 }
 
 .mybox-page-info {

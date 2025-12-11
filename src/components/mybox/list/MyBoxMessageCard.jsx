@@ -36,16 +36,19 @@ function MyBoxMessageCard({ detail, formattedCreatedAt, onClick }) {
   return (
     <section className="mybox-detail-card" onClick={onClick}>
       <div className="mybox-detail-meta">
-        <div className="mybox-detail-meta-left">
-          {/* 🔹 동그라미 아바타 */}
-          <div className="mybox-detail-avatar" />
-          {/* 🔹 이름 */}
-          <span className="mybox-detail-sender">{senderLabel}</span>
-
-          {detail.hidden && (
-            <span className="badge badge-hidden">숨김</span>
-          )}
+      <div className="mybox-detail-meta-left">
+        {/* 아바타 */}
+        <div className="mybox-detail-avatar">
+          <img src="/default-box-avatar-any.jpg" alt="상자 아바타" />
         </div>
+
+        {/* 이름 */}
+        <span className="mybox-detail-sender">{senderLabel}</span>
+
+        {detail.hidden && (
+          <span className="badge badge-hidden">숨김</span>
+        )}
+      </div>
       </div>
 
       <div className="mybox-detail-content">

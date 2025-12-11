@@ -85,7 +85,7 @@
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A487FF, #5D2EFF); /* 상단 헤더 스타일 동일 */
+  background: linear-gradient(135deg, #a487ff, #5d2eff); /* 상단 헤더 스타일 동일 */
   color: white;
   font-weight: 700;
   display: flex;
@@ -100,4 +100,35 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* 맨 위 제목 "답장" */
+.mybox-reply-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* 닉네임/아바타 줄은 기존처럼 좌우 정렬 */
+.mybox-detail-reply-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* 답장 내용 */
+.mybox-reply-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-wrap; /* 줄바꿈 유지하고 싶으면 */
+}
+
+.mybox-detail-content {
+  font-size: 1.1rem; /* 부제목 스타일 */
+  font-weight: 600;
 }

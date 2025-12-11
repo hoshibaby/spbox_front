@@ -121,3 +121,72 @@
 .login-footer-links button:hover {
   text-decoration: underline;
 }
+
+.login-logo-img {
+  width: 200px;        /* 원하는 사이즈 */
+  height: auto;        /* 비율 유지 */
+  object-fit: contain;
+  margin: 0 auto 12px;
+  display: block;
+  opacity: 0.9;        /* (선택) 너무 튀면 은은하게 */
+}
+
+/* 성공 메시지 */
+.login-success {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #16a34a;
+}
+
+/* 회원가입/아이디찾기 페이지에서 아래 링크 */
+.auth-back-link {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  background: none;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+  cursor: pointer;
+}
+
+.auth-back-link:hover {
+  text-decoration: underline;
+}
+
+.auth-bottom-links {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.auth-bottom-links button {
+  border: none;
+  background: none;
+  padding: 0 4px;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.auth-bottom-links button:hover {
+  text-decoration: underline;
+}
+
+/* 페이지 제목: 아이디 찾기 / 비밀번호 찾기 */
+.auth-page-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color:  #6B7280;   /* 🔥 회색 톤으로 다운그레이드 */
+  text-align: center;
+}
+
+.auth-page-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 18px;
+  text-align: center;
+}
