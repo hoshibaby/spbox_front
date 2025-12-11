@@ -37,6 +37,9 @@ function SignupPage() {
         email,
         nickname,
         password,
+        passwordCheck: passwordConfirm,
+        // 백엔드에서 passwordCheck를 요구하면 아래도 같이 보내기:
+        // passwordCheck: passwordConfirm,
       });
 
       setSuccessMsg('회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.');
@@ -54,8 +57,10 @@ function SignupPage() {
       <div className="login-card">
         <div className="login-header">
           <img src={logo} alt="SecretBox Logo" className="login-logo-img" />
-          <h1 className="login-title">회원가입</h1>
-          <p className="login-subtitle">SecretBox 계정을 만들어 비밀 메시지를 관리해 보세요.</p>
+          <h2 className="auth-page-title">회원가입</h2>
+          <p className="login-subtitle">
+            SecretBox 계정을 만들어 비밀 메시지를 관리해 보세요.
+          </p>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>

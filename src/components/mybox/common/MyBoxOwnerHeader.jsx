@@ -4,30 +4,32 @@ import { useNavigate } from "react-router-dom";
 
 const DEFAULT_AVATAR_URL = "/default-box-avatar.jpg";
 
-// 전역에서 auth 파싱 (에러 방지용 try/catch)
-let auth = null;
-try {
-  const raw = localStorage.getItem("auth");
-  if (raw && raw !== "undefined" && raw !== "null") {
-    auth = JSON.parse(raw);
+// ✅ 항상 최신 auth를 가져오기 위한 헬퍼 함수
+function getAuth() {
+  try {
+    const raw = localStorage.getItem("auth");
+    if (raw && raw !== "undefined" && raw !== "null") {
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    console.warn("auth 파싱 실패, null로 처리합니다.", e);
   }
-} catch (e) {
-  console.warn("auth 파싱 실패, null로 처리합니다.", e);
-  auth = null;
+  return null;
 }
 
 function MyBoxOwnerHeader({
   nickname,        // ✅ 1순위 닉네임
-  userHandle,      //  명시적으로 넘겨주면 사용
+  userHandle,      //  선택적으로 넘기는 @핸들
   pageData,
   allowAnonymous,  //  선택적으로 override
   showActions = true,
 
-  // ✅ 새로 추가: 설정 페이지에서 넘겨줄 수 있는 이미지들
+  // ✅ 설정 페이지에서 넘겨줄 수 있는 이미지들
   profileImageUrl: profileImageProp,
   headerImageUrl: headerImageProp,
 }) {
   const navigate = useNavigate();
+  const auth = getAuth(); // ✅ 렌더링마다 최신 auth 읽기
 
   const totalElements = pageData?.totalElements ?? 0;
   const currentPage = (pageData?.page ?? 0) + 1;
@@ -48,8 +50,11 @@ function MyBoxOwnerHeader({
   const displayNickname =
     nickname || pageData?.box?.ownerName || "익명 사용자";
 
-  // ✅ @핸들은 props.userHandle → auth.userId
-  const displayHandle = userHandle || auth?.userId;
+  // ✅ @핸들 우선순위: 로그인 유저 userId → props.userHandle → 예전 addressId
+  const displayHandle =
+    auth?.userId ||
+    userHandle ||
+    pageData?.box?.addressId;
 
   // ✅ allowAnonymous는 props > pageData.box > 기본 true
   const resolvedAllowAnonymous =

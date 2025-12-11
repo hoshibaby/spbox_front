@@ -15,7 +15,6 @@ function SettingsPage() {
   const auth = JSON.parse(localStorage.getItem('auth') || '{}');
   const loginUserId = auth?.userId; // 로그인 ID (userId)
 
-
   const [nickname, setNickname] = useState('김열시'); // 임시 기본값
   const [aiMode, setAiMode] = useState(false);
   const [profilePreview, setProfilePreview] = useState(null);
@@ -23,6 +22,13 @@ function SettingsPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // 비밀번호 변경용 상태
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   // ──────────────────────
   // 2. 최초 마운트 시 내 프로필 불러오기
@@ -92,15 +98,43 @@ function SettingsPage() {
       setProfilePreview(data.profileImageUrl || null);
       setHeaderPreview(data.headerImageUrl || null);
 
-      // (선택) auth.nickname도 같이 업데이트하면 상단 네비도 바로 반영됨
+      // auth.nickname도 같이 업데이트하면 상단 네비도 바로 반영
       const stored = JSON.parse(localStorage.getItem('auth') || '{}');
       if (data.nickname) {
         stored.nickname = data.nickname;
         localStorage.setItem('auth', JSON.stringify(stored));
       }
+      if (data.profileImageUrl) {
+        stored.profileImageUrl = data.profileImageUrl;
+        localStorage.setItem('auth', JSON.stringify(stored));
+      }
+      if (data.headerImageUrl) {
+        stored.headerImageUrl = data.headerImageUrl;
+        localStorage.setItem('auth', JSON.stringify(stored));
+      }
     } catch (e) {
       console.error('프로필 업데이트 실패:', e);
       alert('프로필 저장 중 오류가 발생했어요.');
+    }
+  };
+
+  // 다운로드 URL -> storage 경로로 바꿔서 삭제
+  const deleteImageByUrl = async (url) => {
+    if (!url) return;
+
+    try {
+      const decoded = decodeURIComponent(url);
+      const match = decoded.match(/\/o\/(.*?)\?/); // o/ 와 ? 사이가 path
+      if (!match || !match[1]) return;
+
+      const path = match[1]; // ex) "profile/yeolsi10_123.png"
+      const imgRef = ref(storage, path);
+
+      await deleteObject(imgRef);
+      console.log('삭제 완료:', path);
+    } catch (e) {
+      console.error('이미지 삭제 실패:', e);
+      // 실패하더라도 계정 삭제는 계속 진행
     }
   };
 
@@ -172,6 +206,51 @@ function SettingsPage() {
     }
   };
 
+  // 비밀번호 변경
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setPasswordSuccess('');
+    setPasswordError('');
+
+    if (!currentPassword || !newPassword || !newPasswordConfirm) {
+      setPasswordError('모든 비밀번호 칸을 입력해 주세요.');
+      return;
+    }
+
+    if (newPassword !== newPasswordConfirm) {
+      setPasswordError('새 비밀번호와 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    if (newPassword.length < 4) {
+      setPasswordError('새 비밀번호는 4자 이상으로 설정해 주세요.');
+      return;
+    }
+
+    try {
+      await api.put(
+        '/api/me/password',
+        {
+          currentPassword,
+          newPassword,
+        },
+        {
+          params: { userId: loginUserId },
+        }
+      );
+
+      setPasswordSuccess('비밀번호가 안전하게 변경되었어요.');
+      setCurrentPassword('');
+      setNewPassword('');
+      setNewPasswordConfirm('');
+    } catch (e) {
+      console.error('비밀번호 변경 실패:', e);
+      const msg =
+        e?.response?.data?.message || '비밀번호 변경 중 오류가 발생했어요. 다시 시도해 주세요.';
+      setPasswordError(msg);
+    }
+  };
+
   // 계정 삭제
   const handleDeleteAccount = async () => {
     if (!loginUserId) {
@@ -183,7 +262,7 @@ function SettingsPage() {
     if (!ok) return;
 
     try {
-      // 1) 프로필/헤더 이미지 먼저 지우기 (있을 때만)
+      // 1) 프로필/헤더 이미지 삭제
       await Promise.all([deleteImageByUrl(profilePreview), deleteImageByUrl(headerPreview)]);
 
       // 2) 서버에 계정 삭제 요청
@@ -198,28 +277,6 @@ function SettingsPage() {
     } catch (e) {
       console.error('계정 삭제 실패:', e);
       alert('계정 삭제 중 오류가 발생했어요.');
-    }
-  };
-
-  // 다운로드 URL -> storage 경로로 바꿔서 삭제
-  const deleteImageByUrl = async (url) => {
-    if (!url) return;
-
-    try {
-      // URL 안에 들어있는 경로 부분 꺼내기
-      // 예: https://firebasestorage.googleapis.com/v0/b/.../o/profile%2Fyeolsi10_123.png?alt=media...
-      const decoded = decodeURIComponent(url);
-      const match = decoded.match(/\/o\/(.*?)\?/); // o/ 와 ? 사이가 우리가 쓴 path
-      if (!match || !match[1]) return;
-
-      const path = match[1]; // ex) "profile/yeolsi10_123.png"
-      const imgRef = ref(storage, path);
-
-      await deleteObject(imgRef);
-      console.log('삭제 완료:', path);
-    } catch (e) {
-      console.error('이미지 삭제 실패:', e);
-      // 굳이 alert 안 띄우고, 실패하더라도 계정 삭제는 계속 진행해도 돼
     }
   };
 
@@ -247,7 +304,7 @@ function SettingsPage() {
 
         <main className="settings-main">
           {/* 1) 프로필 / 박스 설정 섹션 */}
-          <section className="settings-card">
+          <section className="settings-card settings-card-profile">
             <h2 className="settings-card-title">프로필 설정</h2>
 
             <div className="settings-row">
@@ -268,7 +325,9 @@ function SettingsPage() {
                         이미지 업로드
                         <input type="file" accept="image/*" onChange={handleProfileChange} hidden />
                       </label>
-                      <span className="file-upload-name">{profilePreview ? '이미지 선택됨' : '선택된 파일 없음'}</span>
+                      <span className="file-upload-name">
+                        {profilePreview ? '이미지 선택됨' : '선택된 파일 없음'}
+                      </span>
                     </div>
                     <p className="settings-help">권장: 400×400px ~ 600×600px (정사각형)</p>
                   </div>
@@ -292,9 +351,13 @@ function SettingsPage() {
                         이미지 업로드
                         <input type="file" accept="image/*" onChange={handleHeaderChange} hidden />
                       </label>
-                      <span className="file-upload-name">{headerPreview ? '이미지 선택됨' : '선택된 파일 없음'}</span>
+                      <span className="file-upload-name">
+                        {headerPreview ? '이미지 선택됨' : '선택된 파일 없음'}
+                      </span>
                     </div>
-                    <p className="settings-help">권장: 1200×300px ~ 1600×400px (가로로 긴 이미지)</p>
+                    <p className="settings-help">
+                      권장: 1200×300px ~ 1600×400px (가로로 긴 이미지)
+                    </p>
                   </div>
                 </div>
               </div>
@@ -308,6 +371,7 @@ function SettingsPage() {
                     value={nickname}
                     onChange={(e) => setNickname(e.target.value)}
                     className="settings-input"
+                    maxLength={10}
                   />
                   <button type="submit" className="settings-button">
                     저장
@@ -318,8 +382,65 @@ function SettingsPage() {
             </div>
           </section>
 
-          {/* 2) AI 상담 모드 섹션 */}
-          <section className="settings-card">
+          {/* 2) 비밀번호 변경 섹션 */}
+          <section className="settings-card settings-card-password">
+            <h2 className="settings-card-title">비밀번호 변경</h2>
+            <p className="settings-help">
+              현재 비밀번호를 확인한 뒤 새 비밀번호로 변경할 수 있어요.
+            </p>
+
+            <form className="settings-password-form" onSubmit={handlePasswordChange}>
+              <div className="settings-field">
+                <label className="settings-label">현재 비밀번호</label>
+                <input
+                  type="password"
+                  className="settings-input"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="settings-field">
+                <label className="settings-label">새 비밀번호</label>
+                <input
+                  type="password"
+                  className="settings-input"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="settings-field">
+                <label className="settings-label">새 비밀번호 확인</label>
+                <input
+                  type="password"
+                  className="settings-input"
+                  value={newPasswordConfirm}
+                  onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                />
+              </div>
+
+              <div className="settings-password-actions">
+                <button type="submit" className="settings-button">
+                  비밀번호 변경
+                </button>
+              </div>
+
+              {passwordError && (
+                <p className="settings-password-msg settings-password-msg-error">
+                  {passwordError}
+                </p>
+              )}
+              {passwordSuccess && (
+                <p className="settings-password-msg settings-password-msg-success">
+                  {passwordSuccess}
+                </p>
+              )}
+            </form>
+          </section>
+
+          {/* 3) AI 상담 모드 섹션 */}
+          <section className="settings-card settings-card-ai">
             <h2 className="settings-card-title">AI 상담 모드</h2>
             <div className="settings-field settings-ai-toggle">
               <label className="settings-label">AI 상담 모드 사용</label>
@@ -328,11 +449,13 @@ function SettingsPage() {
                 <span className="slider" />
               </label>
             </div>
-            <p className="settings-help">이 기능을 켜면 박스에서 AI 상담 버튼이 활성화돼요.</p>
+            <p className="settings-help">
+              이 기능을 켜면 비밀 박스에서 AI 상담 버튼이 활성화돼요.
+            </p>
           </section>
 
-          {/* 3) 위험 영역 섹션 */}
-          <section className="settings-card settings-danger-card">
+          {/* 4) 위험 영역 섹션 */}
+          <section className="settings-card settings-card-danger">
             <h2 className="settings-card-title">계정 삭제</h2>
             <p className="settings-help">계정 및 박스를 영구 삭제합니다. 복구할 수 없어요.</p>
             <button className="settings-button-danger" onClick={handleDeleteAccount}>

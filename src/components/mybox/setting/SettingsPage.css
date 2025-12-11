@@ -3,7 +3,7 @@
    ============================= */
 
 .settings-page {
-  background: linear-gradient(135deg, #f4f5fb, #eceff6);
+  background: radial-gradient(circle at top, #f8f9ff 0, #edf1f8 40%, #e6ebf3 100%);
   min-height: 100vh;
 }
 
@@ -15,7 +15,6 @@
 
 /* =============================
    카드들을 담는 영역
-   (JSX 그대로: 카드 3개가 세로로 들어있다고 가정)
    ============================= */
 
 .settings-main {
@@ -27,30 +26,36 @@
   gap: 16px;
 }
 
-/* 데스크탑 이상일 때만 1행2열 그리드로 재배치
-   1행: 프로필 카드(1번) 전체
-   2행: AI(2번) / 계정삭제(3번) 나란히 */
+/* 데스크탑 이상에서의 레이아웃
+   1행: 프로필 카드 전체
+   2행: 비밀번호 / AI 카드
+   3행: 위험 영역 전체 */
 @media (min-width: 900px) {
   .settings-main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    grid-column-gap: 16px;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-rows: auto auto auto;
+    grid-column-gap: 18px;
     grid-row-gap: 18px;
     grid-template-areas:
-      "profile profile"
-      "ai danger";
+      'profile profile'
+      'password ai'
+      'danger danger';
   }
 
-  .settings-main .settings-card:nth-child(1) {
+  .settings-card-profile {
     grid-area: profile;
   }
 
-  .settings-main .settings-card:nth-child(2) {
+  .settings-card-password {
+    grid-area: password;
+  }
+
+  .settings-card-ai {
     grid-area: ai;
   }
 
-  .settings-main .settings-card:nth-child(3) {
+  .settings-card-danger {
     grid-area: danger;
   }
 }
@@ -60,28 +65,30 @@
    ============================= */
 
 .settings-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   color: #222;
   border-radius: 18px;
   padding: 20px 22px;
   border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow:
-    6px 10px 22px rgba(15, 23, 42, 0.12),
-    -4px -4px 12px rgba(255, 255, 255, 0.95);
+    0 18px 40px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.12);
+  backdrop-filter: blur(18px);
 }
 
 /* 첫 번째(프로필) 카드는 조금 더 여유 있게 */
-.settings-main .settings-card:nth-child(1) {
+.settings-card-profile {
   padding: 22px 24px;
 }
 
-/* 두 번째/세 번째 카드(서브 카드)는 살짝 가볍게 */
-.settings-main .settings-card:nth-child(2),
-.settings-main .settings-card:nth-child(3) {
+/* 서브 카드들은 살짝 가볍게 */
+.settings-card-password,
+.settings-card-ai,
+.settings-card-danger {
   padding: 18px 20px;
 }
 
-/* 카드 안 텍스트 줄 길이 제한해서 덩어리감 줄이기 */
+/* 카드 안 텍스트 줄 길이 제한 */
 .settings-card p,
 .settings-card .settings-help {
   max-width: 620px;
@@ -90,7 +97,7 @@
 .settings-card-title {
   font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   color: #111827;
 }
 
@@ -121,10 +128,11 @@
   padding: 9px 11px;
   border-radius: 10px;
   border: 1px solid #d4d4dd;
-  background: rgba(248, 249, 252, 0.95);
+  background: rgba(248, 249, 252, 0.98);
   color: #111827;
   outline: none;
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .settings-input::placeholder {
@@ -133,6 +141,7 @@
 
 .settings-input:focus {
   border-color: #8b5cf6;
+  background: #f9fafb;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
 }
 
@@ -148,21 +157,22 @@
 
 /* 기본(저장/확인) 버튼 */
 .settings-button {
-  padding: 7px 14px;
+  padding: 7px 16px;
   border-radius: 999px;
   border: none;
-  background: #8b5cf6;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
   color: #fff;
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.35);
-  transition: 0.2s ease;
+  box-shadow: 0 6px 14px rgba(129, 140, 248, 0.4);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .settings-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 10px 22px rgba(129, 140, 248, 0.55);
+  filter: brightness(1.03);
 }
 
 /* 취소 버튼 (맑은 분홍) */
@@ -184,19 +194,21 @@
 /* 위험 버튼 (계정 삭제) */
 .settings-button-danger {
   margin-top: 8px;
-  padding: 7px 14px;
+  padding: 8px 18px;
   border-radius: 999px;
   border: none;
-  background: #ff5c7a;
+  background: linear-gradient(135deg, #fb7185, #f97373);
   color: #fff;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(248, 113, 150, 0.45);
+  box-shadow: 0 6px 16px rgba(248, 113, 150, 0.55);
+  transition: 0.18s ease;
 }
 
 .settings-button-danger:hover {
-  background: #ff3b63;
+  background: linear-gradient(135deg, #f97373, #ef4444);
+  transform: translateY(-1px);
 }
 
 /* =============================
@@ -213,17 +225,17 @@
   background: #8b5cf6;
   color: #fff;
   padding: 6px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+  transition: all 0.18s ease;
+  box-shadow: 0 5px 12px rgba(139, 92, 246, 0.3);
 }
 
 .file-upload-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 18px rgba(139, 92, 246, 0.42);
 }
 
 .file-upload-name {
@@ -308,7 +320,7 @@
 
 .slider::before {
   position: absolute;
-  content: "";
+  content: '';
   height: 18px;
   width: 18px;
   left: 4px;
@@ -327,11 +339,41 @@
 }
 
 /* =============================
+   비밀번호 변경 카드
+   ============================= */
+
+.settings-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.settings-password-actions {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-password-msg {
+  margin-top: 6px;
+  font-size: 0.8rem;
+}
+
+.settings-password-msg-error {
+  color: #b91c1c;
+}
+
+.settings-password-msg-success {
+  color: #059669;
+}
+
+/* =============================
    위험(계정 삭제) 카드
    ============================= */
 
 .settings-danger-card {
-  background: linear-gradient(135deg, #fff3f5, #ffe7eb);
+  background: linear-gradient(145deg, #fff3f6, #ffe7eb);
   border: 1px solid #ffb3c1;
   color: #b91c1c;
 }
@@ -339,4 +381,10 @@
 /* 계정 삭제 설명 줄 길이 줄여서 더 정돈되게 */
 .settings-danger-card p {
   max-width: 420px;
+}
+
+/* 공통 도움말 텍스트 */
+.settings-help {
+  font-size: 0.82rem;
+  color: #6b7280;
 }

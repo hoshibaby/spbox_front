@@ -1,11 +1,12 @@
+// src/service/axios.js
 import axios from "axios";
 
-const instance = axios.create({
+const api = axios.create({
   baseURL: "http://localhost:8080",
 });
 
 // 요청 인터셉터
-instance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const auth = JSON.parse(localStorage.getItem("auth") || "null");
     if (auth?.token) {
@@ -16,4 +17,4 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default instance;
+export default api;

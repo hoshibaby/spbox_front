@@ -1,4 +1,4 @@
-// src/components/mybox/common/MyBoxTabs.jsx
+// src/components/mybox/common/MyBoxMidTabs.jsx
 import { NavLink } from "react-router-dom";
 import "./MyBoxMidTabs.css";
 
@@ -26,15 +26,7 @@ function MyBoxMidTabs() {
         답장
       </NavLink>
 
-      {/* 상담 모드 */}
-      <NavLink
-        to="/me/counseling"
-        className={({ isActive }) =>
-          "mybox-tab" + (isActive ? " mybox-tab-active" : "")
-        }
-      >
-        상담모드
-      </NavLink>
+      {/* 상담모드는 탭에서 제거! 나중에 버튼으로 따로 구현 예정 */}
     </div>
   );
 }

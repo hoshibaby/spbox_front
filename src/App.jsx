@@ -13,8 +13,9 @@ import FindPasswordPage from './pages/LoginPage/FindPasswordPage';
 
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import NotificationPage from './pages/notification/NotificationPage';
-import MyBoxReplyView from './pages/mybox/MyBoxReplyView';
+import MyBoxReplyView from './components/mybox/detail/MyBoxReplyView';
 import SettingsPage from './components/mybox/setting/SettingsPage';
+
 
 function App() {
   return (
