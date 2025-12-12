@@ -21,8 +21,8 @@ function MyBoxMessages() {
 
   // 🔐 로그인 정보 읽기
   const auth = JSON.parse(localStorage.getItem('auth') || 'null');
-  const loginUserPk = auth?.id;          // DB PK (메시지 조회 등에 사용)
-  const addressId = auth?.addressId;     // 화면에 @ 뒤에 붙일 값
+  const loginUserPk = auth?.id; // DB PK (메시지 조회 등에 사용)
+  const addressId = auth?.addressId; // 화면에 @ 뒤에 붙일 값
 
   console.log('MyBoxMessages loginUserPk >>>', loginUserPk);
   console.log('MyBoxMessages addressId >>>', addressId);
@@ -31,7 +31,7 @@ function MyBoxMessages() {
   const formatCreatedAt = (createdAt) => {
     if (!createdAt) return '';
     return new Date(createdAt).toLocaleString('ko-KR', {
-      year: "numeric",
+      year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
@@ -43,6 +43,14 @@ function MyBoxMessages() {
     // 로그인 안 되어 있으면 로그인 페이지로
     if (!loginUserPk) {
       navigate('/login');
+      return;
+    }
+
+    // 환영 확인 게이트 체크
+    const key = `welcomeAck:${loginUserPk}`;
+    const ack = localStorage.getItem(key);
+    if (!ack) {
+      navigate('/welcome', { replace: true });
       return;
     }
 
@@ -69,11 +77,7 @@ function MyBoxMessages() {
         console.log('서버 응답 unread-count:', res.data);
 
         const count =
-          typeof res.data === 'number'
-            ? res.data
-            : typeof res.data?.count === 'number'
-            ? res.data.count
-            : 0;
+          typeof res.data === 'number' ? res.data : typeof res.data?.count === 'number' ? res.data.count : 0;
 
         setUnreadCount(count);
         console.log('최종 unreadCount 상태:', count);
@@ -110,9 +114,8 @@ function MyBoxMessages() {
 
   const messages = pageData.content || [];
 
-   // 백엔드에서 온 allowAnonymous 값
+  // 백엔드에서 온 allowAnonymous 값
   const allowAnonymous = pageData.allowAnonymous ?? true;
-
 
   return (
     <div className="mybox-layout">
@@ -125,7 +128,7 @@ function MyBoxMessages() {
           {/* 계정 주인 카드 */}
           <MyBoxOwnerHeader
             nickname={auth?.nickname}
-            userHandle={addressId}   //  @뒤에 붙는 값
+            userHandle={addressId} //  @뒤에 붙는 값
             pageData={pageData}
             allowAnonymous={allowAnonymous}
           />
@@ -133,17 +136,14 @@ function MyBoxMessages() {
           {/* 제목 + 리스트 */}
           <h3 className="mybox-title">
             내 SecretBox 메시지들{' '}
-            {pageData.page !== undefined &&
-              pageData.totalPages !== undefined && (
-                <span className="mybox-page-info">
-                  (페이지 {pageData.page + 1} / {pageData.totalPages})
-                </span>
-              )}
+            {pageData.page !== undefined && pageData.totalPages !== undefined && (
+              <span className="mybox-page-info">
+                (페이지 {pageData.page + 1} / {pageData.totalPages})
+              </span>
+            )}
           </h3>
 
-          {messages.length === 0 && (
-            <div className="mybox-empty">아직 받은 메시지가 없어요.</div>
-          )}
+          {messages.length === 0 && <div className="mybox-empty">아직 받은 메시지가 없어요.</div>}
 
           <div className="mybox-message-list">
             {messages.map((msg) => (

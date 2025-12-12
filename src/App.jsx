@@ -15,30 +15,48 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import NotificationPage from './pages/notification/NotificationPage';
 import MyBoxReplyView from './components/mybox/detail/MyBoxReplyView';
 import SettingsPage from './components/mybox/setting/SettingsPage';
-
+import WelcomeGatePage from './pages/auth/WelcomeGatePage';
 
 function App() {
+  return (
+    <>
+
+
+      {/* 2) 라우트를 “웰컴(스케일X)” 과 “나머지(스케일O)” 로 분리 */}
+      <Routes>
+        {/* 웰컴: 스케일 적용 X */}
+        <Route path="/welcome" element={<WelcomeGatePage />} />
+
+        {/* 나머지: 스케일 래퍼 안으로 */}
+        <Route path="/*" element={<ScaledRoutes />} />
+      </Routes>
+    </>
+  );
+}
+
+function ScaledRoutes() {
   return (
     <div className="app-root">
       <NavigationBar />
 
       <Routes>
         <Route path="/" element={<Navigate to="/me/messages" replace />} />
+
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/find-id" element={<FindIdPage />} />
+        <Route path="/find-password" element={<FindPasswordPage />} />
 
         <Route path="/userId/:userId" element={<MessageViewPage />} />
-
         <Route path="/q/:urlKey" element={<MessageViewPage />} />
+
         <Route path="/me/messages" element={<MyBoxMessagesPage />} />
         <Route path="/me/replies" element={<MyBoxReplyView />} />
-        {/* <Route path="/me/counseling" element={<MyBoxCounselingPage />} /> */}
         <Route path="/me/messages/:id" element={<MyMessageDetailPage />} />
         <Route path="/me/notifications" element={<NotificationPage />} />
         <Route path="/me/messages/new" element={<MyMessageWritePage />} />
         <Route path="/me/settings" element={<SettingsPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/find-id" element={<FindIdPage />} />
-        <Route path="/find-password" element={<FindPasswordPage />} />
+
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </div>

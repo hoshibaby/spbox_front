@@ -15,40 +15,67 @@ function SignupPage() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;        // 중복 제출 방지
+    setLoading(true);
+
     setError('');
     setSuccessMsg('');
 
-    if (!userId || !email || !nickname || !password || !passwordConfirm) {
-      setError('모든 필드를 입력해 주세요.');
-      return;
-    }
-
-    if (password !== passwordConfirm) {
-      setError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-      return;
-    }
-
     try {
+      // 1) 프론트 기본 검증
+      if (!userId || !email || !nickname || !password || !passwordConfirm) {
+        setError('모든 필드를 입력해 주세요.');
+        return;
+      }
+
+      if (password !== passwordConfirm) {
+        setError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        return;
+      }
+
+      // 2) 회원가입
       await authService.signup({
         userId,
         email,
         nickname,
         password,
         passwordCheck: passwordConfirm,
-        // 백엔드에서 passwordCheck를 요구하면 아래도 같이 보내기:
-        // passwordCheck: passwordConfirm,
       });
 
-      setSuccessMsg('회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.');
-      setTimeout(() => {
-        navigate('/login');
-      }, 1200);
+      // 3) 자동 로그인
+      const loginRes = await authService.login({ userId, password });
+      localStorage.setItem('auth', JSON.stringify(loginRes.data));
+
+      // 4) 환영 게이트로 이동
+      navigate('/welcome', { replace: true });
+
     } catch (err) {
       console.error(err);
-      setError('회원가입에 실패했습니다. 입력 정보를 다시 확인해 주세요.');
+
+      // 서버 에러 메시지 최대한 살려서 표시
+      const serverMsg =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        '';
+
+      if (typeof serverMsg === 'string' && serverMsg.includes('이메일')) {
+        setError('이미 사용 중인 이메일입니다. 다른 이메일로 가입해 주세요.');
+      } else if (
+        typeof serverMsg === 'string' &&
+        (serverMsg.includes('아이디') || serverMsg.includes('userId'))
+      ) {
+        setError('이미 사용 중인 아이디입니다. 다른 아이디로 가입해 주세요.');
+      } else if (typeof serverMsg === 'string' && serverMsg.length > 0) {
+        setError(serverMsg);
+      } else {
+        setError('회원가입에 실패했습니다. 입력 정보를 다시 확인해 주세요.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,8 +141,12 @@ function SignupPage() {
             />
           </div>
 
-          <button type="submit" className="login-button">
-            회원가입
+          <button
+            type="submit"
+            className="login-button"
+            disabled={loading}
+          >
+            {loading ? '처리 중...' : '회원가입'}
           </button>
 
           {error && <p className="login-error">{error}</p>}

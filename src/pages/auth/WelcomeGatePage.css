@@ -1,0 +1,121 @@
+.wg-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 12, 0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.wg-modal {
+  width: min(680px, calc(100% - 40px));
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 24px;
+  padding: 34px 34px 28px; 
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18), 0 2px 10px rgba(0, 0, 0, 0.06);
+  transform: translateY(6px);
+  animation: wg-pop 160ms ease-out forwards;
+}
+
+@keyframes wg-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.wg-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.45;
+  margin-bottom: 30px; /* 🔥 제목 아래 여유 크게 */
+  letter-spacing: -0.3px;
+}
+
+.wg-title span{
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7c5cff;
+  opacity: 0.95;
+  letter-spacing: 0.2px;
+}
+
+/* 제목 안 이모지 줄을 살짝 떨어뜨리는 효과 */
+.wg-title span,
+.wg-title .emoji {
+  display: block;
+  margin-top: 6px;
+}
+
+.wg-body {
+  font-size: 0.98rem;
+  text-align: left;  
+  margin-top: 6px; 
+  
+  color: rgba(10, 10, 12, 0.82);
+}
+
+.wg-body p {
+  margin: 10px 0;
+  line-height: 1.65;
+}
+
+.wg-hint {
+  margin-top: 28px; /* 🔥 제목/본문과 거리 */
+  margin-bottom: 26px; /* 🔥 버튼과 거리 */
+  padding: 14px 16px;
+  border-radius: 18px;
+
+  background: rgba(124, 92, 255, 0.08); /* 💜 보라 기운 */
+  border: 1px solid rgba(124, 92, 255, 0.18);
+
+  color: rgba(30, 30, 40, 0.88);
+}
+
+.wg-btn {
+  width: 100%;
+  margin-top: 28px; /* 🔥 버튼 위 여백 크게 */
+  border: none;
+  border-radius: 999px;
+  padding: 14px 16px;
+
+  font-weight: 800;
+  font-size: 0.98rem;
+
+  background: linear-gradient(135deg, #5b3fdc, #7c5cff); /* 💜 보라 그라데이션 */
+
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(92, 70, 200, 0.35);
+
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wg-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(92, 70, 200, 0.45);
+}
+
+.wg-btn:active {
+  transform: translateY(0);
+  opacity: 0.92;
+}
+
+.wg-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
