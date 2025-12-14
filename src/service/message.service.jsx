@@ -18,11 +18,17 @@ const getMyAnsweredMessages = (userPk, page = 0, size = 10) => {
 
 // 새 메시지 보내기
 // dto: { boxUrlKey, content }
-// userPk: 로그인 한 사람 PK (없으면 null 넣어도 됨)
+// userPk: 로그인 한 사람 PK (없으면 null)
 const sendMessage = (dto, userPk) => {
-  return api.post('/api/message', dto, {
-    params: userPk ? { userId: userPk } : {},   // 쿼리스트링에 userId 붙이기
-  });
+  // ✅ 로그인 유저면 params 포함, 아니면 config 자체를 생략
+  if (userPk) {
+    return api.post('/api/message', dto, {
+      params: { userId: userPk },
+    });
+  }
+
+  // ✅ 비로그인(익명) 전송
+  return api.post('/api/message', dto);
 };
 
 // 메시지 상세: GET /api/me/messages/{id}?userId=...
@@ -72,6 +78,12 @@ const blacklistByMessage = (id, userPk) => {
   });
 };
 
+// AI 답변 생성: POST /api/messages/{id}/ai-reply
+// ✅ 토큰은 axios 인터셉터가 자동으로 붙여줌
+const generateAiReply = (messageId) => {
+  return api.post(`/api/messages/${messageId}/ai-reply`);
+};
+
 // 한 번에 export
 const messageService = {
   getMyMessages,
@@ -82,7 +94,8 @@ const messageService = {
   hideMessage,
   blacklistByMessage,
   updateMessage,
-  deleteMessage, 
+  deleteMessage,
+  generateAiReply, 
 };
 
 export default messageService;

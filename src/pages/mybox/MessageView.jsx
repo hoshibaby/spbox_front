@@ -127,16 +127,19 @@ function MessageView() {
         content: content.trim(),
       };
 
-      await messageService.sendMessage(dto, loginUserPk);
+      await messageService.sendMessage(dto, isLoggedIn ? loginUserPk : null);
 
       alert('메시지가 발송되었어요 :)');
       setContent('');
 
-      // 옵션: 전송 후 목록 새로고침
-      // const msgRes = isUserIdMode
-      //   ? await boxService.getPublicMessagesByUserId(userId, 0, 10)
-      //   : await boxService.getPublicMessages(urlKey, 0, 10);
-      // setPageData(msgRes.data);
+        // ✅ 전송 후 목록 즉시 새로고침
+      const msgRes = isUserIdMode
+        ? await boxService.getPublicMessagesByUserId(userId, 0, 10)
+        : await boxService.getPublicMessages(urlKey, 0, 10);
+
+      setPageData(msgRes.data);
+
+
     } catch (err) {
       console.error(err);
       setErrorText('메시지 발송 중 오류가 발생했어요.');
@@ -196,7 +199,7 @@ function MessageView() {
                   <textarea
                     className="mybox-write-textarea"
                     rows={7}
-                    maxLength={2000}
+                    maxLength={500}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="보내고 싶은 메시지를 입력해 주세요."
@@ -204,7 +207,7 @@ function MessageView() {
 
                   <div className="mybox-write-count-wrapper">
                     <span className="mybox-write-count">
-                      {content.length} / 2000
+                      {content.length} / 500
                     </span>
                   </div>
 

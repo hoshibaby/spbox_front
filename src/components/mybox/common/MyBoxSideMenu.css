@@ -63,7 +63,7 @@
 /* ===== 알림 숫자 배지 ===== */
 .mybox-menu-badge {
   position: absolute;
-  right: 25px;         /* 필요하면 10 / 14 등으로 조정해도 돼 */
+  right: 10px;         /* 필요하면 10 / 14 등으로 조정해도 돼 */
   top: 50%;            /* 세로 가운데 기준 */
   transform: translateY(-50%);  /* 정확히 가운데로 */
 

@@ -16,6 +16,8 @@ import NotificationPage from './pages/notification/NotificationPage';
 import MyBoxReplyView from './components/mybox/detail/MyBoxReplyView';
 import SettingsPage from './components/mybox/setting/SettingsPage';
 import WelcomeGatePage from './pages/auth/WelcomeGatePage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminRoute from './routes/AdminRoute';
 
 function App() {
   return (
@@ -56,6 +58,15 @@ function ScaledRoutes() {
         <Route path="/me/notifications" element={<NotificationPage />} />
         <Route path="/me/messages/new" element={<MyMessageWritePage />} />
         <Route path="/me/settings" element={<SettingsPage />} />
+
+          {/* ✅ 관리자 */}
+        <Route path="/admin/users" 
+          element={
+            <AdminRoute>
+              <AdminUsersPage />
+            </AdminRoute>
+          }
+        />
 
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>

@@ -2,11 +2,29 @@
 import './MyBoxSideMenu.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faEnvelope, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faEnvelope, faGear, faUserShield } from '@fortawesome/free-solid-svg-icons';
+
+
+function getAuth() {
+  try {
+    const raw = localStorage.getItem('auth');
+    if (!raw || raw === 'null' || raw === 'undefined') return null;
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn('auth 파싱 실패:', e);
+    return null;
+  }
+}
+
+
 
 
 function MyBoxSideMenu({ unreadNotificationCount = 0 }) {
   console.log('MyBoxSideMenu unreadNotificationCount >>>', unreadNotificationCount);
+
+  const auth = getAuth();
+  const isAdmin = auth?.role === 'ADMIN';
+
   return (
     <>
       <aside className="mybox-sidebar">
@@ -44,6 +62,18 @@ function MyBoxSideMenu({ unreadNotificationCount = 0 }) {
           <FontAwesomeIcon icon={faGear} className="mybox-menu-icon" />
           <span className="mybox-menu-label">설정</span>
         </NavLink>
+
+        {isAdmin && (
+          <NavLink
+            to="/admin/users"
+            className={({ isActive }) =>
+              "mybox-menu-btn" + (isActive ? " mybox-menu-active" : "")
+            }
+          >
+            <FontAwesomeIcon icon={faUserShield} className="mybox-menu-icon" />
+            <span className="mybox-menu-label">관리자</span>
+          </NavLink>
+        )}
       </aside>
     </>
   );

@@ -1,5 +1,5 @@
 // src/pages/auth/SignupPage.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../service/auth.service';
 import logo from '../../assets/secretbox-log.png';
@@ -17,9 +17,70 @@ function SignupPage() {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [userIdCheck, setUserIdCheck] = useState({ available: null, message: '' });
+  const [emailCheck, setEmailCheck] = useState({ available: null, message: '' });
+
+  // ✅ 아이디 중복확인 (입력 멈추면 400ms 뒤 검사)
+  useEffect(() => {
+    const v = userId.trim();
+
+    if (!v) {
+      setUserIdCheck({ available: null, message: '' });
+      return;
+    }
+
+    if (v.length < 4) {
+      setUserIdCheck({ available: null, message: '아이디는 4자 이상 입력해주세요.' });
+      return;
+    }
+
+    const t = setTimeout(async () => {
+      try {
+        const res = await authService.checkUserId(v);
+        setUserIdCheck(res.data); // { available, message }
+      } catch (e) {
+        setUserIdCheck({ available: null, message: '아이디 중복확인 실패(서버 오류)' });
+      }
+    }, 400);
+
+    return () => clearTimeout(t);
+  }, [userId]);
+
+  // ✅ 이메일 중복확인
+  useEffect(() => {
+    const v = email.trim();
+
+    if (!v) {
+      setEmailCheck({ available: null, message: '' });
+      return;
+    }
+
+    if (!v.includes('@')) {
+      setEmailCheck({ available: null, message: '이메일 형식을 확인해주세요.' });
+      return;
+    }
+
+    const t = setTimeout(async () => {
+      try {
+        const res = await authService.checkEmail(v);
+        setEmailCheck(res.data);
+      } catch (e) {
+        setEmailCheck({ available: null, message: '이메일 중복확인 실패(서버 오류)' });
+      }
+    }, 400);
+
+    return () => clearTimeout(t);
+  }, [email]);
+
+  // ✅ 버튼 활성화 조건: 아이디/이메일 중복확인 통과 + 로딩 아닐 때
+  const canSubmit =
+    !loading &&
+    userIdCheck.available === true &&
+    emailCheck.available === true;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return;        // 중복 제출 방지
+    if (loading) return;
     setLoading(true);
 
     setError('');
@@ -34,6 +95,16 @@ function SignupPage() {
 
       if (password !== passwordConfirm) {
         setError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        return;
+      }
+
+      // ✅ submit 때도 중복확인 통과 강제 (안전장치)
+      if (userIdCheck.available !== true) {
+        setError('아이디 중복확인을 통과해 주세요.');
+        return;
+      }
+      if (emailCheck.available !== true) {
+        setError('이메일 중복확인을 통과해 주세요.');
         return;
       }
 
@@ -56,7 +127,6 @@ function SignupPage() {
     } catch (err) {
       console.error(err);
 
-      // 서버 에러 메시지 최대한 살려서 표시
       const serverMsg =
         err?.response?.data?.message ||
         err?.response?.data ||
@@ -86,7 +156,7 @@ function SignupPage() {
           <img src={logo} alt="SecretBox Logo" className="login-logo-img" />
           <h2 className="auth-page-title">회원가입</h2>
           <p className="login-subtitle">
-            SecretBox 계정을 만들어 비밀 메시지를 관리해 보세요.
+            SecretBox 계정을 만들어 비밀 메세지 상자를 만들어 보세요.
           </p>
         </div>
 
@@ -97,8 +167,13 @@ function SignupPage() {
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              placeholder="로그인에 사용할 아이디"
+              placeholder="로그인 아이디"
             />
+            {userIdCheck.message && (
+              <p className={userIdCheck.available ? "login-success" : "login-error"}>
+                {userIdCheck.message}
+              </p>
+            )}
           </div>
 
           <div className="login-field">
@@ -109,6 +184,11 @@ function SignupPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="이메일 주소"
             />
+            {emailCheck.message && (
+              <p className={emailCheck.available ? "login-success" : "login-error"}>
+                {emailCheck.message}
+              </p>
+            )}
           </div>
 
           <div className="login-field">
@@ -117,7 +197,7 @@ function SignupPage() {
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="상자에 표시될 이름"
+              placeholder="상자의 이름"
             />
           </div>
 
@@ -144,7 +224,7 @@ function SignupPage() {
           <button
             type="submit"
             className="login-button"
-            disabled={loading}
+            disabled={!canSubmit}
           >
             {loading ? '처리 중...' : '회원가입'}
           </button>

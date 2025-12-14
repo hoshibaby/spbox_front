@@ -1,23 +1,8 @@
-// src/service/profile.service.js
+// src/service/userProfile.service.js  (파일명은 네 프로젝트에 맞춰)
 import api from "./axios";
 
-// 내 프로필 조회
-function getMyProfile(userId) {
-  return api.get("/api/me/profile", {
-    params: { userId },   // ?userId=1
-  });
-}
+// ✅ 토큰 기반: userId 파라미터 없이 호출
+const getMyProfile = () => api.get("/api/me/profile");
+const updateMyProfile = (payload) => api.patch("/api/me/profile", payload);
 
-// 내 프로필 수정 (부분 업데이트 가능)
-function updateMyProfile(userId, payload) {
-  return api.patch("/api/me/profile", payload, {
-    params: { userId },
-  });
-}
-
-const profileService = {
-  getMyProfile,
-  updateMyProfile,
-};
-
-export default profileService;
+export default { getMyProfile, updateMyProfile };

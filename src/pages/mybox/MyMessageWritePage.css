@@ -1,3 +1,5 @@
+/* src/pages/mybox/MyMessageWritePage.css */
+
 /* 전체 카드 모양: 답장/메시지 상세 카드와 통일 */
 .mybox-write-card {
   background: #ffffff;
@@ -7,18 +9,74 @@
   margin-top: 18px;
 }
 
+/* 상단 타이틀 줄 */
+.mybox-write-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 /* 제목 "메시지 발송" */
 .mybox-write-card .mybox-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 /* 설명 텍스트 */
 .mybox-write-desc {
   font-size: 14px;
   color: #666;
-  margin-bottom: 16px;
+  margin: 8px 0 16px;
+}
+
+/* 상단 pill 토글 영역 */
+.mybox-write-top-toggles {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* pill 토글 */
+.pill-toggle {
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  /* ✅ 버튼과 글자 급 통일 */
+  font-size: 16px;
+  font-weight: 700;
+
+  background: #f1f1f5;
+  color: #6b6b75;
+  transition: transform 0.05s ease, background 0.15s ease;
+}
+
+.pill-toggle:active {
+  transform: scale(0.98);
+}
+
+.pill-toggle.on {
+  background: #111827; /* 진한 pill */
+  color: #ffffff;
+}
+
+.pill-toggle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 차단 배지 */
+.mybox-write-badge-blocked {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ffe8ea;
+  color: #d92b2b;
+  border: 1px solid #ffd0d6;
 }
 
 /* 텍스트 영역 */
@@ -39,6 +97,13 @@
   box-shadow: 0 0 0 2px rgba(108, 70, 255, 0.15);
 }
 
+/* disabled 상태에서 입력 느낌 */
+.mybox-write-textarea:disabled {
+  background: #fafafb;
+  color: #888;
+  cursor: not-allowed;
+}
+
 /* 글자수 카운트 */
 .mybox-write-count-wrapper {
   display: flex;
@@ -51,7 +116,14 @@
   color: #999;
 }
 
-/* 버튼 영역 / 버튼 스타일 */
+/* 에러 문구 (JSX에 이미 class 사용 중이라 가볍게 기본) */
+.mybox-write-error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #d92b2b;
+}
+
+/* 버튼 영역 */
 .mybox-write-actions {
   display: flex;
   justify-content: flex-end;
@@ -59,30 +131,66 @@
   margin-top: 16px;
 }
 
+/* ✅ 버튼 글자 크기 통일 (원하는 기준) */
+.mybox-write-btn {
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* primary */
 .mybox-write-btn.primary {
   border: none;
-  border-radius: 999px;
-  padding: 8px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
   background: linear-gradient(135deg, #6c46ff, #9a5bff);
   color: #fff;
 }
 
+.mybox-write-btn.primary:hover {
+  opacity: 0.9;
+}
+
+.mybox-write-btn.primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* secondary */
 .mybox-write-btn.secondary {
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
   border: 1px solid #ddd;
   background: #fff;
+  color: #111;
 }
 
 .mybox-write-btn.secondary:hover {
   background: #f7f7fb;
 }
 
-.mybox-write-btn.primary:hover {
-  opacity: 0.9;
+/* 차단 안내 박스 */
+.mybox-write-blocked-box {
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  background: #fff6f6;
+  border: 1px solid #ffd3d8;
+  margin: 12px 0 14px;
+}
+
+.mybox-write-blocked-title {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: #b11f1f;
+}
+
+.mybox-write-blocked-msg {
+  font-size: 13px;
+  color: #b11f1f;
+  line-height: 1.4;
+}
+
+.mybox-write-blocked-help {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #7a4a4a;
 }

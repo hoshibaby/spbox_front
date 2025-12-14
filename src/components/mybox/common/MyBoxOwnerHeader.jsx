@@ -18,43 +18,58 @@ function getAuth() {
 }
 
 function MyBoxOwnerHeader({
-  nickname, // 1순위 닉네임
-  userHandle, //  선택적으로 넘기는 @핸들
+  nickname,
+  userHandle,
   pageData,
-  allowAnonymous, //  선택적으로 override
+  allowAnonymous,
   showActions = true,
 
   // 설정 페이지에서 넘겨줄 수 있는 이미지들
   profileImageUrl: profileImageProp,
   headerImageUrl: headerImageProp,
+
+  // ✅ 오늘 한마디(=todayMessage) props로도 받을 수 있게
+  todayMessage: todayMessageProp,
+
   onAiConsult = () => alert('AI 상담 기능이 아직 준비 중이에요.'),
 }) {
   const navigate = useNavigate();
-  const auth = getAuth(); // 렌더링마다 최신 auth 읽기
+  const auth = getAuth();
 
   const totalElements = pageData?.totalElements ?? 0;
   const currentPage = (pageData?.page ?? 0) + 1;
   const totalPages = pageData?.totalPages ?? 1;
 
-  // 프로필 이미지 우선순위: props → box → auth → 기본
+  // 프로필 이미지 우선순위: props → pageData.box → auth → 기본
   const resolvedProfileImageUrl =
-    profileImageProp || pageData?.box?.profileImageUrl || auth?.profileImageUrl || DEFAULT_AVATAR_URL;
+    profileImageProp ||
+    pageData?.box?.profileImageUrl ||
+    auth?.profileImageUrl ||
+    DEFAULT_AVATAR_URL;
 
-  // 헤더 이미지 우선순위: props → box → (없으면 CSS 그라디언트)
-  const resolvedHeaderImageUrl = headerImageProp || pageData?.box?.headerImageUrl || auth?.headerImageUrl || null;
+  // 헤더 이미지 우선순위: props → pageData.box → auth → (없으면 CSS 그라디언트)
+  const resolvedHeaderImageUrl =
+    headerImageProp || pageData?.box?.headerImageUrl || auth?.headerImageUrl || null;
 
-  // 닉네임 우선순위: props.nickname → box.ownerName → "익명 사용자"
+  // 닉네임 우선순위: props → pageData.box → 기본
   const displayNickname = nickname || pageData?.box?.ownerName || '익명 사용자';
 
-  // @핸들 우선순위: 로그인 유저 userId → props.userHandle → 예전 addressId
+  // @핸들 우선순위: 로그인 유저 userId → props.userHandle → addressId
   const displayHandle = auth?.userId || userHandle || pageData?.box?.addressId;
 
   // allowAnonymous는 props > pageData.box > 기본 true
   const resolvedAllowAnonymous = allowAnonymous ?? pageData?.box?.allowAnonymous ?? true;
 
   const policyLabel = resolvedAllowAnonymous
-    ? '익명 메시지 허용 중인 비밀 상담함이에요.'
-    : '로그인한 회원만 메시지를 남길 수 있는 비밀 상담함이에요.';
+    ? '익명 메시지 허용 중인 상자예요.'
+    : '로그인한 회원만 메시지를 남길 수 있는 상자예요.';
+
+  // ✅ “오늘 한마디” 우선순위: props(todayMessage) → pageData.box.todayMessage → auth.todayMessage → 기본문구
+  const displayTodayMessage =
+    todayMessageProp ||
+    pageData?.box?.todayMessage ||
+    auth?.todayMessage ||
+    '오늘의 한마디를 남겨보세요.';
 
   const handleCopyLink = async () => {
     try {
@@ -77,7 +92,6 @@ function MyBoxOwnerHeader({
 
   return (
     <section className="mybox-owner-card">
-      {/* 헤더 배경 이미지 적용 부분 */}
       <div
         className="mybox-owner-cover"
         style={
@@ -87,7 +101,7 @@ function MyBoxOwnerHeader({
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }
-            : undefined // 없으면 CSS의 그라디언트 유지
+            : undefined
         }
       />
 
@@ -102,10 +116,9 @@ function MyBoxOwnerHeader({
             {displayHandle && <span className="mybox-owner-id">@{displayHandle}</span>}
           </div>
 
-          {/* 박스 주인 상태메시지 */}
-          <p className="mybox-owner-status">{pageData?.box?.statusMessage || '오늘의 한마디를 남겨보세요.'}</p>
+          {/* ✅ 오늘 한마디 표시 */}
+          <p className="mybox-owner-status">{displayTodayMessage}</p>
 
-          {/* 안내 문구 */}
           <p className="mybox-owner-subtitle">{policyLabel}</p>
 
           <div className="mybox-owner-stats">
@@ -127,10 +140,16 @@ function MyBoxOwnerHeader({
             <button className="owner-btn secondary" onClick={handleCopyLink}>
               비밀박스 링크 복사
             </button>
-            <button className="btn-secondary" onClick={onAiConsult}>
+            {/* <button
+              className="owner-btn secondary"
+              onClick={() => navigate('/me/messages')}
+            >
               AI 상담
-            </button>
-            <button className="owner-btn primary write-btn" onClick={() => navigate('/me/messages/new')}>
+            </button> */}
+            <button
+              className="owner-btn primary write-btn"
+              onClick={() => navigate('/me/messages/new')}
+            >
               메세지 발송
             </button>
           </div>

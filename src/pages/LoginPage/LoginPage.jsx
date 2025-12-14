@@ -16,7 +16,7 @@ function LoginPage() {
     setError('');
 
     try {
-      const res = await authService.login(userId, password);
+      const res = await authService.login({ userId, password });
       const data = res.data; // token, userId, email, nickname...
 
       const auth = {
@@ -37,7 +37,13 @@ function LoginPage() {
       navigate('/me/messages'); // 로그인 후 이동
     } catch (err) {
       console.error(err);
-      setError('아이디 또는 비밀번호를 확인해 주세요.');
+
+      // ✅ 백엔드에서 내려준 에러 메시지 우선 사용
+      const message =
+        err?.response?.data?.message ||
+        '아이디 또는 비밀번호를 확인해 주세요.';
+
+      setError(message);
     }
   };
 

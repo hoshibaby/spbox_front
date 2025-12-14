@@ -1,117 +1,115 @@
-/* =============================
-   전체 페이지 배경
-   ============================= */
+/* =========================================================
+   SettingsPage.css  (FULL REPLACE – micro tuning)
+   JSX: 열시가 올린 SettingsPage.jsx 그대로
+   ========================================================= */
 
+:root {
+  --bg-top: #f8f9ff;
+  --bg-mid: #edf1f8;
+  --bg-bot: #e6ebf3;
+
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+
+  --text: #111827;
+  --muted: #6b7280;
+
+  --primary: #8b5cf6;
+  --primary-2: #6366f1;
+
+  --danger-bg: #fff2f4;
+  --danger-border: #ffd2da;
+  --danger-text: #9f1239;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+
+  --btn-h: 40px;
+  --btn-font: 14px;
+
+  /* 🔥 안내문(최대 10자/이미지 선택됨/권장...) 크기 업 */
+  --hint-font: 13px; /* 기존 12px → 13px (체감 큼). 더 원하면 14로! */
+}
+
+/* ===== 페이지 ===== */
 .settings-page {
-  background: radial-gradient(circle at top, #f8f9ff 0, #edf1f8 40%, #e6ebf3 100%);
+  background: radial-gradient(circle at top, var(--bg-top), var(--bg-mid), var(--bg-bot));
   min-height: 100vh;
 }
 
 .settings-page-inner {
   max-width: 1080px;
-  margin: 0 auto 40px;
-  padding: 24px 16px 40px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
 }
-
-/* =============================
-   카드들을 담는 영역
-   ============================= */
 
 .settings-main {
-  max-width: 1080px;
-  margin: 24px auto 40px;
-  padding: 0 16px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
-/* 데스크탑 이상에서의 레이아웃
-   1행: 프로필 카드 전체
-   2행: 비밀번호 / AI 카드
-   3행: 위험 영역 전체 */
-@media (min-width: 900px) {
-  .settings-main {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    grid-template-rows: auto auto auto;
-    grid-column-gap: 18px;
-    grid-row-gap: 18px;
-    grid-template-areas:
-      'profile profile'
-      'password ai'
-      'danger danger';
-  }
-
-  .settings-card-profile {
-    grid-area: profile;
-  }
-
-  .settings-card-password {
-    grid-area: password;
-  }
-
-  .settings-card-ai {
-    grid-area: ai;
-  }
-
-  .settings-card-danger {
-    grid-area: danger;
-  }
-}
-
-/* =============================
-   기본 카드 (유리/볼록 느낌)
-   ============================= */
-
+/* ===== 카드 공통 ===== */
 .settings-card {
-  background: rgba(255, 255, 255, 0.92);
-  color: #222;
-  border-radius: 18px;
-  padding: 20px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.12),
-    0 0 0 1px rgba(148, 163, 184, 0.12);
-  backdrop-filter: blur(18px);
-}
-
-/* 첫 번째(프로필) 카드는 조금 더 여유 있게 */
-.settings-card-profile {
-  padding: 22px 24px;
-}
-
-/* 서브 카드들은 살짝 가볍게 */
-.settings-card-password,
-.settings-card-ai,
-.settings-card-danger {
-  padding: 18px 20px;
-}
-
-/* 카드 안 텍스트 줄 길이 제한 */
-.settings-card p,
-.settings-card .settings-help {
-  max-width: 620px;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+  color: var(--text);
 }
 
 .settings-card-title {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 14px;
-  color: #111827;
+  margin: 0;
 }
 
-/* 프로필 설정 안에서 필드 간 간격 */
-.settings-row {
+/* ===== 프로필 ===== */
+.settings-card-profile {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* =============================
-   인풋 스타일
-   ============================= */
+/* .profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+} */
 
+.profile-grid{
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) 520px;  /* 오른쪽을 520px로 고정 */
+  gap: 18px;
+  align-items: start;
+}
+
+.profile-right{
+  max-width: 520px;
+  justify-self: end;      /* 오른쪽 칸 안에서 끝에 붙이고 */
+  padding-right: 160px;   /* ✅ 끝에서 160px 만큼 안쪽(왼쪽)으로 당김 */
+  transform: none;
+}
+
+
+
+.profile-left {
+  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 0) 오른쪽(이미지 영역) 전체를 왼쪽으로 당겨서
+   아래 AI 카드와 더 “같은 선상”처럼 보이게 */
+/* .profile-right {
+  max-width: 520px;
+  justify-self: end;
+  transform: translateX(-160px);  /* 🔥 핵심: 필요하면 -18 ~ -32 사이에서 조정 
+ } */ 
+
+/* ===== 필드 / 입력 ===== */
 .settings-field {
   display: flex;
   flex-direction: column;
@@ -119,272 +117,360 @@
 }
 
 .settings-label {
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: #374151;
 }
 
 .settings-input {
-  padding: 9px 11px;
-  border-radius: 10px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
   border: 1px solid #d4d4dd;
-  background: rgba(248, 249, 252, 0.98);
-  color: #111827;
-  outline: none;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-
-.settings-input::placeholder {
-  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .settings-input:focus {
-  border-color: #8b5cf6;
-  background: #f9fafb;
+  outline: none;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
 }
 
 .settings-inline-form {
   display: flex;
   gap: 8px;
-  align-items: center;
 }
 
-/* =============================
-   버튼 계열
-   ============================= */
-
-/* 기본(저장/확인) 버튼 */
-.settings-button {
-  padding: 7px 16px;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
-  color: #fff;
-  font-weight: 500;
-  font-size: 0.86rem;
-  cursor: pointer;
-  box-shadow: 0 6px 14px rgba(129, 140, 248, 0.4);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+.settings-help {
+  font-size: var(--hint-font);  /* 2) 안내문 크기 업 */
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.35;
 }
 
-.settings-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(129, 140, 248, 0.55);
-  filter: brightness(1.03);
-}
-
-/* 취소 버튼 (맑은 분홍) */
-.settings-button-cancel {
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(248, 113, 150, 0.6);
-  background: #ffeaf2;
-  color: #be123c;
-  font-weight: 500;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.settings-button-cancel:hover {
-  background: #ffd6e5;
-}
-
-/* 위험 버튼 (계정 삭제) */
+/* ===== 버튼 통일 ===== */
+.settings-button,
+.file-upload-button,
 .settings-button-danger {
-  margin-top: 8px;
-  padding: 8px 18px;
+  height: var(--btn-h);
+  padding: 0 16px;
   border-radius: 999px;
+  font-size: var(--btn-font);
+  font-weight: 700;
+  line-height: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
   border: none;
-  background: linear-gradient(135deg, #fb7185, #f97373);
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.86rem;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(248, 113, 150, 0.55);
-  transition: 0.18s ease;
 }
 
-.settings-button-danger:hover {
-  background: linear-gradient(135deg, #f97373, #ef4444);
-  transform: translateY(-1px);
-}
-
-/* =============================
-   파일 업로드 / 이미지 미리보기
-   ============================= */
-
-.file-upload-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.settings-button,
 .file-upload-button {
-  background: #8b5cf6;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: #fff;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  box-shadow: 0 5px 12px rgba(139, 92, 246, 0.3);
 }
 
-.file-upload-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(139, 92, 246, 0.42);
+.settings-button-danger {
+  background: #ff4e4e;
+  color: #fff;
 }
 
-.file-upload-name {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
+/* ===== 이미지 ===== */
 .settings-image-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  align-items: start;
 }
 
+/* 공통 미리보기 박스 */
 .settings-image-preview,
 .settings-header-preview {
   background: #f3f4f6;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
+  border-radius: 16px;
   overflow: hidden;
-  min-width: 80px;
-  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.settings-image-preview img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
+.settings-image-preview {
+  width: 140px;
+  height: 140px;
 }
 
+.settings-header-preview {
+  width: 100%;          /* ✅ 튀어나가지 않게 고정 */
+  height: 140px;
+  max-width: 520px;    /* ✅ 넓게 보이되, 카드 밖으로는 안 나가게 */
+}
+
+.settings-image-preview img,
 .settings-header-preview img {
-  width: 220px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
+/* 1) 헤더 미리보기 “이미지 없음” 글자 너무 큼 → 버튼 글자급으로 작게 */
 .settings-image-placeholder {
-  font-size: 0.8rem;
+  font-size: var(--btn-font);
+  font-weight: 700;
   color: #9ca3af;
 }
 
-/* =============================
-   AI 토글 스위치
-   ============================= */
-
-.settings-ai-toggle {
+/* 헤더는 위/아래 스택 */
+.header-stack {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ✅ 2) “이미지 선택됨/선택된 파일 없음”을 버튼 아래로 내리고
+   “권장 사이즈”도 아래로 두 줄로 정리 */
+.upload-meta,
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 파일 업로드 줄: 버튼은 위, 안내문은 아래로 */
+.file-upload-box {
+  display: flex;
+  flex-direction: column;     /* 🔥 버튼 아래로 안내문 내리기 */
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* 안내문(선택된 파일 없음/이미지 선택됨) */
+.file-upload-name {
+  font-size: var(--hint-font); /* 2) 안내문 크기 업 */
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* ===== 하단 레이아웃 ===== */
+.settings-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* ===== 비밀번호 카드 ===== */
+.settings-card-password {
+  padding-bottom: 14px;
+}
+
+.settings-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 기본 여유 */
+}
+
+/* 3) “비밀번호 변경” 타이틀 아래 여백(현재 비밀번호 위 공간) 추가 */
+.settings-card-password .settings-card-title {
+  margin-bottom: 10px;
+}
+
+/* 3) 현재 비밀번호 아래도 다른 필드처럼 여백 동일하게 */
+.settings-password-form .settings-field {
+  gap: 8px;
+}
+
+/* 현재 비밀번호 필드 아래 추가 여백 */
+.settings-password-form .settings-field:first-child {
+  margin-bottom: 6px;
+}
+
+.settings-password-actions {
+  margin-top: 6px;
+}
+
+/* 오른쪽 스택 */
+.right-stack {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 14px;
+}
+
+/* ===== AI / 공개 카드: 제목 + 토글 한 줄 ===== */
+.settings-card-ai,
+.settings-card-public {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
-/* 설명 텍스트 줄 길이 살짝 제한 */
-.settings-ai-toggle .settings-help {
-  max-width: 420px;
+/* 토글 영역(현재 JSX에 settings-ai-toggle div가 있음)
+   → 카드 한 줄 정렬을 방해하지 않게 정리 */
+.settings-ai-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
+/* 토글 스위치 */
 .switch {
+  width: 52px;
+  height: 28px;
   position: relative;
-  display: inline-block;
-  width: 46px;
-  height: 24px;
+  flex: 0 0 auto;
 }
 
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }
 
 .slider {
   position: absolute;
-  cursor: pointer;
   inset: 0;
-  background-color: #e5e7eb;
+  background: #e5e7eb;
   border-radius: 999px;
-  transition: 0.2s;
 }
 
 .slider::before {
-  position: absolute;
   content: '';
-  height: 18px;
-  width: 18px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
   left: 4px;
-  bottom: 3px;
-  background-color: white;
+  bottom: 4px;
+  background: white;
   border-radius: 50%;
   transition: 0.2s;
 }
 
 .switch input:checked + .slider {
-  background-color: #8b5cf6;
+  background: var(--primary);
 }
 
 .switch input:checked + .slider::before {
-  transform: translateX(18px);
+  transform: translateX(24px);
 }
 
-/* =============================
-   비밀번호 변경 카드
-   ============================= */
-
-.settings-password-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
+/* 4) 비회원 메시지 허용 설명문을 “제목 아래”로 이동
+   - 현재 JSX에서 설명은 <p class="settings-help">로 카드 안에 존재
+   - 카드가 flex(한 줄)라서 p가 옆으로 끼는 현상 발생 → 아래로 내림 */
+.settings-card-public {
+  flex-wrap: wrap;            /* ✅ 줄바꿈 허용 */
 }
 
-.settings-password-actions {
-  margin-top: 4px;
-  display: flex;
-  justify-content: flex-end;
+.settings-card-public .settings-card-title {
+  flex: 1 1 auto;
+  min-width: 220px;
 }
 
-.settings-password-msg {
+.settings-card-public .settings-ai-toggle {
+  flex: 0 0 auto;
+}
+
+/* 설명문은 2번째 줄로 강제 */
+.settings-card-public .settings-help {
+  flex: 0 0 100%;
   margin-top: 6px;
-  font-size: 0.8rem;
+  font-size: var(--hint-font); /* 다른 안내문과 같은 배율 */
 }
 
-.settings-password-msg-error {
-  color: #b91c1c;
+/* ===== 계정 삭제 ===== */
+.settings-card-danger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+
+  padding: 14px 18px; /* 카드 높이 축소 */
 }
 
-.settings-password-msg-success {
-  color: #059669;
+.settings-card-danger .settings-card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danger-text);
 }
 
-/* =============================
-   위험(계정 삭제) 카드
-   ============================= */
-
-.settings-danger-card {
-  background: linear-gradient(145deg, #fff3f6, #ffe7eb);
-  border: 1px solid #ffb3c1;
-  color: #b91c1c;
+/* ===== Blacklist UI ===== */
+.settings-card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
-/* 계정 삭제 설명 줄 길이 줄여서 더 정돈되게 */
-.settings-danger-card p {
-  max-width: 420px;
+.blacklist-list{
+  list-style:none;
+  padding:0;
+  margin:12px 0 0;
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  max-height: 220px;     /* 여기 조절 */
+  overflow-y: auto;      /* 내부 스크롤 */
+  padding-right: 6px;    /* 스크롤바 생겨도 내용 안 겹치게 */
 }
 
-/* 공통 도움말 텍스트 */
-.settings-help {
-  font-size: 0.82rem;
-  color: #6b7280;
+.blacklist-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
 }
+
+.blacklist-info{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+.blacklist-name{
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.blacklist-sub{
+  font-size:0.9rem;
+  opacity:0.7;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.blacklist-list.scroll{
+  max-height: 220px;   /* 카드 안에서만 스크롤 */
+  overflow-y: auto;
+  padding-right: 4px;  /* 스크롤바 때문에 글자 붙는 거 방지 */
+}
+
+
+/* ===== 반응형 ===== */
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-right {
+    max-width: none;
+    transform: none; /* 모바일에서는 당김 해제 */
+  }
+
+  .settings-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
